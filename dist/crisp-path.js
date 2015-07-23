@@ -1,11 +1,6 @@
-
-/**
- * PathJS Crisp functions
- * @namespace util.path
- * 
- * @tutorial {@link http://opencrisp.wca.at/tutorials/PathJS_test.html|use PathJS}
- */
-
+/*! OpenCrisp PathJS - v0.1.0 - 2015-07-24
+* http://opencrisp.wca.at
+* Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
 
     // function print( self, name, score ) {
