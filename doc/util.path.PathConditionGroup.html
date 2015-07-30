@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: pathFind</title>
+    <title>JSDoc: Class: PathConditionGroup</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Namespace: pathFind</h1>
+    <h1 class="page-title">Class: PathConditionGroup</h1>
 
     
 
@@ -31,7 +31,7 @@
         <h2>
             <span class="ancestors"><a href="util.path.html">.path</a>.</span>
         
-        pathFind
+        PathConditionGroup
         </h2>
         
     
@@ -42,7 +42,96 @@
     
         
 
+    
+
+    <h4 class="name" id="PathConditionGroup"><span class="type-signature">(private) </span>new PathConditionGroup<span class="signature">(reason, parent)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
         
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>reason</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 
 
 <dl class="details">
@@ -74,7 +163,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line152">line 152</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line482">line 482</a>
     </li></ul></dd>
     
 
@@ -86,7 +175,20 @@
 </dl>
 
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     </div>
 
@@ -110,7 +212,7 @@
 
     
 
-    <h4 class="name" id="'"><span class="type-signature">(private, static) </span>'#'<span class="signature">(node)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(include)</span><span class="type-signature"> &rarr; {<a href="util.path.PathCondition.html">util.path.PathCondition</a>}</span></h4>
 
     
 
@@ -149,13 +251,13 @@
 
         <tr>
             
-                <td class="name"><code>node</code></td>
+                <td class="name"><code>include</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">external:Boolean</span>
 
 
             
@@ -206,7 +308,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line192">line 192</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line525">line 525</a>
     </li></ul></dd>
     
 
@@ -229,6 +331,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="util.path.PathCondition.html">util.path.PathCondition</a></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -237,7 +357,7 @@
 
     
 
-    <h4 class="name" id=".'*'"><span class="type-signature">(private, static) </span>'*'<span class="signature">(node)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="exec"><span class="type-signature"></span>exec<span class="signature">(node)</span><span class="type-signature"> &rarr; {*}</span></h4>
 
     
 
@@ -282,7 +402,7 @@
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">external:String</span>
 
 
             
@@ -333,7 +453,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line157">line 157</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line537">line 537</a>
     </li></ul></dd>
     
 
@@ -356,6 +476,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -364,7 +502,7 @@
 
     
 
-    <h4 class="name" id=".'+'"><span class="type-signature">(private, static) </span>'+'<span class="signature">(node)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="parent"><span class="type-signature"></span>parent<span class="signature">(name)</span><span class="type-signature"> &rarr; {*}</span></h4>
 
     
 
@@ -403,13 +541,13 @@
 
         <tr>
             
-                <td class="name"><code>node</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">external:String</span>
 
 
             
@@ -460,7 +598,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line172">line 172</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line498">line 498</a>
     </li></ul></dd>
     
 
@@ -483,6 +621,216 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="reason"><span class="type-signature"></span>reason<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line510">line 510</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="specific"><span class="type-signature"></span>specific<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line517">line 517</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 

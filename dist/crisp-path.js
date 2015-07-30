@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.1.0 - 2015-07-25
+/*! OpenCrisp PathJS - v0.1.0 - 2015-07-30
 * http://opencrisp.wca.at
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -34,7 +34,6 @@
 
 
     var utilTick        = $$.utilTick;
-    // var stringToRegExp  = RegExp.escape;
     var isType          = $$.isType;
     
 
@@ -44,6 +43,7 @@
 
     /**
      * Regular Expresion to find /\"/g 
+     * @private
      * @type {RegExp}
      *
      * @memberOf util.path
@@ -52,6 +52,7 @@
     
     /**
      * Regular Expresion to find /\'/g 
+     * @private
      * @type {RegExp}
      *
      * @memberOf util.path
@@ -64,7 +65,7 @@
      */
     var pathOperator = {
         /**
-         * @function util.path.pathOperator.>
+         * @function util.path.pathOperator.'>'
          * @private
          * 
          * @param  {*} val0 Value a
@@ -77,7 +78,7 @@
         },
         
         /**
-         * @function util.path.pathOperator.<
+         * @function util.path.pathOperator.'<'
          * @private
          * 
          * @param  {*} val0 Value a
@@ -90,7 +91,7 @@
         },
         
         /**
-         * @function util.path.pathOperator.>=
+         * @function util.path.pathOperator.'>='
          * @private
          * 
          * @param  {*} val0 Value a
@@ -103,7 +104,7 @@
         },
 
         /**
-         * @function util.path.pathOperator.<=
+         * @function util.path.pathOperator.'<='
          * @private
          * 
          * @param  {*} val0 Value a
@@ -116,7 +117,7 @@
         },
 
         /**
-         * @function util.path.pathOperator.==
+         * @function util.path.pathOperator.'=='
          * @private
          * 
          * @param  {*} val0 Value a
@@ -129,7 +130,7 @@
         },
 
         /**
-         * @function util.path.pathOperator.!=
+         * @function util.path.pathOperator.'!='
          * @private
          * 
          * @param  {*} val0 Value a
@@ -148,6 +149,12 @@
      */
     var pathFind = {
 
+        /**
+         * @function util.path.pathFind.'*'
+         * @private
+         * 
+         * @param  {*} node
+         */
         '*': function( node ) {
             node.xEach({
                 self: this,
@@ -157,6 +164,12 @@
             });
         },
 
+        /**
+         * @function util.path.pathFind.'+'
+         * @private
+         * 
+         * @param  {*} node
+         */
         '+': function( node ) {
             // console.log('pathFind.#', node.docPath(), testSpecific );
             
@@ -171,6 +184,12 @@
             this.child.exec( node );
         },
 
+        /**
+         * @function util.path.pathFind.'#'
+         * @private
+         * 
+         * @param  {*} node
+         */
         '#': function( node ) {
             var specific = this.specific();
             var testSpecific = specific ? execValue( specific, node ) : true;
@@ -206,12 +225,30 @@
     };
 
 
-
+    /**
+     * check of fn is a function
+     * 
+     * @private
+     * @param  {*} fn
+     * @return {external:Boolean}
+     *
+     * @memberOf util.path
+     */
     function isFunction( fn ) {
         return isType( fn, 'Function' );
     }
 
 
+    /**
+     * reverse given node
+     * 
+     * @private
+     * @param  {external:Number} reverse
+     * @param  {*}               node
+     * @return {external:Boolean}
+     *
+     * @memberOf util.path
+     */
     function execReverse( reverse, node ) {
         var i=0;
 
@@ -224,6 +261,14 @@
     }
 
 
+    /**
+     * @private
+     * @param  {*}               ref
+     * @param  {*}               node
+     * @return {*}
+     *
+     * @memberOf util.path
+     */
     function execValue( ref, node ) {
         var val;
 
@@ -249,6 +294,12 @@
     }
 
 
+    /**
+     * @private
+     * @type {external:String}
+     *
+     * @memberOf util.path
+     */
     var strCondition = '\\s*(?:' + 
                 '(\\!=|[<>=]{1,2})' +                                       // [1] operator
         '|' +   '(\\!+)' +                                                  // [2] reverse
@@ -265,12 +316,25 @@
         
         '|' +   '.+' +                      //     parse() findPathDoc
     ')\\s*';
+    
 
+    /**
+     * @private
+     * @type {external:RegExp}
+     *
+     * @memberOf util.path
+     */
     var regCondition = new RegExp( strCondition, 'g' );
     // console.log( strCondition );
 
     var countContition = 0;
 
+
+    /**
+     * @private
+     * @param  {*} parent
+     * @return {util.path.PathConditionGroup}
+     */
     function findPathCondition( parent ) {
 
         var score;
@@ -361,6 +425,12 @@
         return conditionGroup;
     }
 
+
+    /**
+     * @private
+     * @param  {*} item
+     * @return {*}
+     */
     function conditionGroupExecSuccess( item ) {
         // console.log('PathConditionGroup.exec', this.node );
         var tmp;
@@ -395,6 +465,15 @@
         item.exec( this.node );
     }
 
+
+    /**
+     * @class
+     * @private
+     * @param {*} reason
+     * @param {*} parent
+     *
+     * @memberOf util.path
+     */
     function PathConditionGroup( reason, parent ) {
         if ( !parent ) {
             this._reason = reason;
@@ -406,23 +485,38 @@
     }
 
     PathConditionGroup.prototype = {
-        parent: function( fn ) {
-            if ( fn ) {
-                return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
+
+        /**
+         * @param  {external:String} name
+         * @return {*}
+         */
+        parent: function( name ) {
+            if ( name ) {
+                return this._parent && isFunction( this._parent[ name ] ) && this._parent[ name ]();
             }
             else {
                 return this._parent;
             }
         },
 
+        /**
+         * @return {*}
+         */
         reason: function() {
             return this._reason || this.parent('reason');
         },
 
+        /**
+         * @return {*}
+         */
         specific: function() {
             return this._specific || this.parent('specific');
         },
 
+        /**
+         * @param  {external:Boolean} include
+         * @return {util.path.PathCondition}
+         */
         add: function( include ) {
             var condition = new PathCondition( this );
             if ( include ) {
@@ -431,6 +525,10 @@
             return condition;
         },
 
+        /**
+         * @param  {external:String} node
+         * @return {*}
+         */
         exec: function( node ) {
             var reason = this.reason();
 
@@ -452,34 +550,59 @@
     };
 
 
+    /**
+     * @class
+     * @private
+     * @param {*} parent
+     *
+     * @memberOf util.path
+     */
     function PathCondition( parent ) {
         // this._parent = parent;
         Object.defineProperty( this, '_parent', { value: parent });
     }
 
     PathCondition.prototype = {
-        parent: function( fn ) {
-            if ( fn ) {
-                return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
+
+        /**
+         * @param  {external:String} name
+         * @return {*}
+         */
+        parent: function( name ) {
+            if ( name ) {
+                return this._parent && isFunction( this._parent[ name ] ) && this._parent[ name ]();
             }
             else {
                 return this._parent;
             }
         },
 
+        /**
+         * @return {*}
+         */
         reason: function() {
             return this._reason || this.parent('reason');
         },
 
+        /**
+         * @return {*}
+         */
         specific: function() {
             return this._specific || this.parent('specific');
         },
 
+        /**
+         * @return {util.path.PathCondition}
+         */
         parse: function() {
             this.child = findPathDoc.call( this.reason(), this );
             return this;
         },
 
+        /**
+         * @param  {*} node
+         * @return {*}
+         */
         exec: function( node ) {
             var child, value;
 
@@ -511,32 +634,58 @@
             });
         },
 
+        /**
+         * @return {*}
+         */
         reverse: function() {
             return this._reverse || 0;
         },
 
+        /**
+         * @return {*}
+         */
         operator: function() {
             return this._operator || 0;
         },
 
+        /**
+         * @param {*} next
+         * @return {*}
+         */
         next: function( next ) {
             return next ? this._next === next : this._next;
         }
     };
 
 
-
+    /**
+     * @private
+     * @type {external:String}
+     */
     var strPathDoc = '\\s*(?:' +
-                '(\\.)' +                               // [1] PathParent PathDoc
-        '|' +   '([0-9]+|[a-z][a-z0-9\\-]*)\\.?' +      // [2] PathDoc Attribute-Name
-        '|' +   '([*#+])\\.?' +                         // [3] PathValue Node
-        '|' +   '\\$([a-z0-9_]+)\\.?' +                 // [4] PathRepeat
-        '|' +   '(:)' +                                 // [5] findPathFunction
-        '|' +   '(\\[|\\()' +                           // [6] findPathCondition
-        '|' +   '.+' +                                  //     END of findPathDoc
+                '(\\.)' +                                   // [1] Parent Doc
+        '|' +   '(?:(-?[0-9]+)~([0-9]+)|(-[0-9]+))\\.?' +   // [2] Limit items
+        '|' +    '([0-9]+|[a-z][a-z0-9\\-]*)\\.?' +         // [5] Doc Attribute-Name
+        '|' +    '([*#+])\\.?' +                            // [6] Value Node
+        '|' +    '\\$([a-z0-9_]+)\\.?' +                    // [7] Repeat
+        '|' +    '(:)' +                                    // [8] findFunction
+        '|' +    '(\\[|\\()' +                              // [9] findCondition
+        '|' +    '.+' +                                     //     END of findDoc
     ')\\s*';
+    
+    /**
+     * @private
+     * @type {external:RegExp}
+     */
     var regPathDoc = new RegExp( strPathDoc, 'g' );
 
+    /**
+     * @private
+     * @param  {*} parent
+     * @return {util.path.PathParent|util.path.PathDoc|util.path.PathRepeat|util.path.PathFilter}
+     *
+     * @memberOf util.path
+     */
     function findPathDoc( parent ) {
         var obj;
         // print( this, 'findPathDoc' );
@@ -556,24 +705,28 @@
         if ( score[1] !== undefined ) {
             obj = new PathParent( parent ).parse();
         }
+        // (?:(-[0-9]+)|(-?[0-9]+)~([0-9]+))\\.?
+        else if ( score[2] !== undefined || score[4] !== undefined ) {
+            obj = new PathLimit( parent, ( score[2] || score[4] ), score[3] ).parse();
+        }
         // [0-9]+|[a-z][a-z0-9\\-]*
-        else if ( score[2] !== undefined ) {
-            obj = new PathDoc( parent, score[2] ).parse();
+        else if ( score[5] !== undefined ) {
+            obj = new PathDoc( parent, score[5] ).parse();
         }
         // [*#+]
-        else if ( score[3] !== undefined ) {
-            obj = new PathRepeat( parent, score[3] ).parse();
+        else if ( score[6] !== undefined ) {
+            obj = new PathRepeat( parent, score[6] ).parse();
         }
         // \\$([a-z0-9_]+)\\.?
-        else if ( score[4] !== undefined ) {
-            obj = new PathDoc( parent, this.valueKey( score[4] ) ).parse();
+        else if ( score[7] !== undefined ) {
+            obj = new PathDoc( parent, this.valueKey( score[7] ) ).parse();
         }
         // :
-        else if ( score[5] !== undefined ) {
+        else if ( score[8] !== undefined ) {
             obj = findPathFunction.call( this, parent );
         }
         // \\[|\\(
-        else if ( score[6] !== undefined ) {
+        else if ( score[9] !== undefined ) {
             obj = new PathFilter( parent ).parse();
         }
         else {
@@ -585,13 +738,22 @@
     }
 
 
-
+    /**
+     * @class
+     * @private
+     * @param {*} parent
+     *
+     * @memberOf util.path
+     */
     function PathFilter( parent ) {
         // this._parent = parent;
         Object.defineProperty( this, '_parent', { value: parent });
     }
 
     PathFilter.prototype = {
+        /**
+         * @return {*}
+         */
         parent: function( fn ) {
             if ( fn ) {
                 return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
@@ -601,20 +763,32 @@
             }
         },
 
+        /**
+         * @return {*}
+         */
         reason: function() {
             return this._reason || this.parent('reason');
         },
 
+        /**
+         * @return {*}
+         */
         specific: function() {
             return this._specific || this.parent('specific');
         },
 
+        /**
+         * @return {*}
+         */
         parse: function() {
             this.filter = findPathCondition.call( this.reason(), this );
             this.child = findPathDoc.call( this.reason(), this );
             return this;
         },
 
+        /**
+         * @return {*}
+         */
         exec: function( node ) {
             // console.log('PathFilter.exec', !execValue( this.filter, node ) );
             // console.log('============== PathFilter.exec ============' );
@@ -629,13 +803,28 @@
     };
 
 
-
-    function PathParent( parent ) {
+    /**
+     * @class
+     * @private
+     * @param {*} parent
+     *
+     * @memberOf util.path
+     */
+    function PathLimit( parent, start, limit ) {
         // this._parent = parent;
         Object.defineProperty( this, '_parent', { value: parent });
+
+        // this._start = 0;
+        // this._limit = 2;
+
+        this._start = Number(start);
+        this._limit = limit && Math.abs(limit);
     }
 
-    PathParent.prototype = {
+    PathLimit.prototype = {
+        /**
+         * @return {*}
+         */
         parent: function( fn ) {
             if ( fn ) {
                 return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
@@ -645,19 +834,94 @@
             }
         },
 
+        /**
+         * @return {*}
+         */
         reason: function() {
             return this._reason || this.parent('reason');
         },
 
+        /**
+         * @return {*}
+         */
         specific: function() {
             return this._specific || this.parent('specific');
         },
 
+        /**
+         * @return {*}
+         */
         parse: function() {
             this.child = findPathDoc.call( this.reason(), this );
             return this;
         },
 
+        /**
+         * @return {*}
+         */
+        exec: function( node ) {
+            node.xEach({
+                self: this,
+                start: this._start,
+                limit: this._limit,
+                success: function( item ) {
+                    nextTick.call( this, item );
+                }
+            });
+        }
+    };
+
+
+    /**
+     * @class
+     * @private
+     * @param {*} parent
+     *
+     * @memberOf util.path
+     */
+    function PathParent( parent ) {
+        // this._parent = parent;
+        Object.defineProperty( this, '_parent', { value: parent });
+    }
+
+    PathParent.prototype = {
+        /**
+         * @return {*}
+         */
+        parent: function( fn ) {
+            if ( fn ) {
+                return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
+            }
+            else {
+                return this._parent;
+            }
+        },
+
+        /**
+         * @return {*}
+         */
+        reason: function() {
+            return this._reason || this.parent('reason');
+        },
+
+        /**
+         * @return {*}
+         */
+        specific: function() {
+            return this._specific || this.parent('specific');
+        },
+
+        /**
+         * @return {*}
+         */
+        parse: function() {
+            this.child = findPathDoc.call( this.reason(), this );
+            return this;
+        },
+
+        /**
+         * @return {*}
+         */
         exec: function( node ) {
             // console.log('PathParent.exec' );
             nextTick.call( this, node.__parent__ );
@@ -665,6 +929,18 @@
     };
 
 
+    /**
+     * @todo  expand with eachLimit
+     */
+
+    /**
+     * @class
+     * @private
+     * @param {*} reason
+     * @param {external:String} attr
+     *
+     * @memberOf util.path
+     */
     function PathDoc( reason, attr ) {
         // this._ = reason;
         Object.defineProperty( this, '_parent', { value: reason });
@@ -672,6 +948,9 @@
     }
 
     PathDoc.prototype = {
+        /**
+         * @return {*}
+         */
         parent: function( fn ) {
             if ( fn ) {
                 return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
@@ -681,20 +960,32 @@
             }
         },
 
+        /**
+         * @return {*}
+         */
         reason: function() {
             return this._reason || this.parent('reason');
         },
 
+        /**
+         * @return {*}
+         */
         specific: function() {
             return this._specific || this.parent('specific');
         },
 
+        /**
+         * @return {*}
+         */
         parse: function() {
             // console.log('PathDoc.parse child:', this.child );
             this.child = findPathDoc.call( this.reason(), this );
             return this;
         },
 
+        /**
+         * @return {*}
+         */
         exec: function( node ) {
             // console.log('PathDoc.exec', this.attr() );
             
@@ -707,6 +998,9 @@
             nextTick.call( this, node );
         },
 
+        /**
+         * @return {*}
+         */
         attr: function() {
             return this._attr;
         }
@@ -714,6 +1008,14 @@
 
 
 
+    /**
+     * @class
+     * @private
+     * @param {*} parent
+     * @param {*} type
+     *
+     * @memberOf util.path
+     */
     function PathRepeat( parent, type ) {
         // this._parent = parent;
         Object.defineProperty( this, '_parent', { value: parent });
@@ -721,6 +1023,9 @@
     }
 
     PathRepeat.prototype = {
+        /**
+         * @return {*}
+         */
         parent: function( fn ) {
             if ( fn ) {
                 return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
@@ -730,24 +1035,39 @@
             }
         },
 
+        /**
+         * @return {*}
+         */
         reason: function() {
             return this._reason || this.parent('reason');
         },
 
+        /**
+         * @return {*}
+         */
         specific: function() {
             return this._specific || this.parent('specific');
         },
 
+        /**
+         * @return {*}
+         */
         parse: function() {
             this.child = findPathDoc.call( this.reason(), this );
             return this;
         },
 
+        /**
+         * @return {*}
+         */
         exec: function( node ) {
             // console.log('PathRepeat.exec', this.type(), node );
             pathFind[ this.type() ].call( this, node );
         },
 
+        /**
+         * @return {*}
+         */
         type: function() {
             return this._type;
         }
@@ -800,6 +1120,14 @@
     }
 
 
+    /**
+     * @class
+     * @private
+     * @param {*} parent
+     * @param {*} name
+     *
+     * @memberOf util.path
+     */
     function PathFunction( parent, name ) {
         // this._parent = parent;
         Object.defineProperty( this, '_parent', { value: parent });
@@ -808,6 +1136,9 @@
     }
 
     PathFunction.prototype = {
+        /**
+         * @return {*}
+         */
         parent: function( fn ) {
             if ( fn ) {
                 return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
@@ -817,19 +1148,31 @@
             }
         },
 
+        /**
+         * @return {*}
+         */
         reason: function() {
             return this._reason || this.parent('reason');
         },
 
+        /**
+         * @return {*}
+         */
         specific: function() {
             return this._specific || this.parent('specific');
         },
 
+        /**
+         * @return {*}
+         */
         parse: function() {
             this.child = findPathFunction.call( this.reason(), this );
             return this;
         },
 
+        /**
+         * @return {*}
+         */
         exec: function( node ) {
             // console.log('PathFunction.exec', this.name() );
 
@@ -842,10 +1185,16 @@
             nextTick.call( this, node );
         },
 
+        /**
+         * @return {*}
+         */
         name: function() {
             return this._name || 'toString';
         },
 
+        /**
+         * @return {*}
+         */
         args: function() {
             return this._args;
         }
@@ -853,6 +1202,14 @@
 
 
 
+    /**
+     * @class
+     * @private
+     * @param {*} parent
+     * @param {*} value
+     *
+     * @memberOf util.path
+     */
     function PathValue( parent, value ) {
         // this._parent = parent;
         Object.defineProperty( this, '_parent', { value: parent });
@@ -860,6 +1217,9 @@
     }
 
     PathValue.prototype = {
+        /**
+         * @return {*}
+         */
         parent: function( fn ) {
             if ( fn ) {
                 return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
@@ -869,14 +1229,23 @@
             }
         },
 
+        /**
+         * @return {*}
+         */
         reason: function() {
             return this._reason || this.parent('reason');
         },
 
+        /**
+         * @return {*}
+         */
         specific: function() {
             return this._specific || this.parent('specific');
         },
 
+        /**
+         * @return {*}
+         */
         exec: function() {
             // console.log('PathValue.exec', this.name() );
             nextTick.call( this, this._value );
@@ -966,6 +1335,13 @@
 
 
 
+    /**
+     * @class
+     * @private
+     * @param {*} option
+     *
+     * @memberOf util.path
+     */
     function Path( option ) {
         this.index = option.index;        // Zeichenposition für regexp
         this.path = option.path;
@@ -981,6 +1357,9 @@
     }
 
     Path.prototype = {
+        /**
+         * @return {*}
+         */
         valueKey: function( key ) {
             return this.values[ key ];
         }
@@ -1001,6 +1380,8 @@
     $$.definePath = function( moduleObject ) {
 
         /**
+         * OpenCrisp module of PathJS allows to navigate in JavaScript objects
+         * 
          * @module PathJS
          * 
          * @tutorial  {@link http://opencrisp.wca.at/tutorials/PathJS_test.html}
@@ -1009,7 +1390,10 @@
 
         Object.defineProperties( moduleObject, {
 
-
+            /**
+             * @function
+             * @memberOf module:PathJS
+             */
             pathNode: {
                 value: function( opt ) {
                     var self = this,
@@ -1025,7 +1409,7 @@
                     opt.async = false;
                     opt.success = function(e) {
                         // console.log('pathNode: success e=', e );
-                        node = e.data;
+                        node = e;
                     };
 
                     self.pathFind( opt );
@@ -1039,6 +1423,10 @@
                 }
             },
 
+            /**
+             * @function
+             * @memberOf module:PathJS
+             */
             pathFind: {
                 value: function( opt ) {
                     // console.log('pathFind');
@@ -1071,12 +1459,16 @@
                         });
                     }
 
-                    utilTick( self, parsePath, obj );
+                    utilTick( self, parsePath, obj, opt.async );
 
                     return self;
                 }
             },
 
+            /**
+             * @function
+             * @memberOf module:PathJS
+             */
             pathExists: {
                 value: function( path ) {
                     return this.pathNode({ path: path }) !== undefined;

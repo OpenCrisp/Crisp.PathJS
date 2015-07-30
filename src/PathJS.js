@@ -668,13 +668,14 @@
      * @type {external:String}
      */
     var strPathDoc = '\\s*(?:' +
-                '(\\.)' +                               // [1] PathParent PathDoc
-        '|' +   '([0-9]+|[a-z][a-z0-9\\-]*)\\.?' +      // [2] PathDoc Attribute-Name
-        '|' +   '([*#+])\\.?' +                         // [3] PathValue Node
-        '|' +   '\\$([a-z0-9_]+)\\.?' +                 // [4] PathRepeat
-        '|' +   '(:)' +                                 // [5] findPathFunction
-        '|' +   '(\\[|\\()' +                           // [6] findPathCondition
-        '|' +   '.+' +                                  //     END of findPathDoc
+                '(\\.)' +                                   // [1] Parent Doc
+        '|' +   '(?:(-?[0-9]+)~([0-9]+)|(-[0-9]+))\\.?' +   // [2] Limit items
+        '|' +    '([0-9]+|[a-z][a-z0-9\\-]*)\\.?' +         // [5] Doc Attribute-Name
+        '|' +    '([*#+])\\.?' +                            // [6] Value Node
+        '|' +    '\\$([a-z0-9_]+)\\.?' +                    // [7] Repeat
+        '|' +    '(:)' +                                    // [8] findFunction
+        '|' +    '(\\[|\\()' +                              // [9] findCondition
+        '|' +    '.+' +                                     //     END of findDoc
     ')\\s*';
     
     /**
@@ -709,24 +710,28 @@
         if ( score[1] !== undefined ) {
             obj = new PathParent( parent ).parse();
         }
+        // (?:(-[0-9]+)|(-?[0-9]+)~([0-9]+))\\.?
+        else if ( score[2] !== undefined || score[4] !== undefined ) {
+            obj = new PathLimit( parent, ( score[2] || score[4] ), score[3] ).parse();
+        }
         // [0-9]+|[a-z][a-z0-9\\-]*
-        else if ( score[2] !== undefined ) {
-            obj = new PathDoc( parent, score[2] ).parse();
+        else if ( score[5] !== undefined ) {
+            obj = new PathDoc( parent, score[5] ).parse();
         }
         // [*#+]
-        else if ( score[3] !== undefined ) {
-            obj = new PathRepeat( parent, score[3] ).parse();
+        else if ( score[6] !== undefined ) {
+            obj = new PathRepeat( parent, score[6] ).parse();
         }
         // \\$([a-z0-9_]+)\\.?
-        else if ( score[4] !== undefined ) {
-            obj = new PathDoc( parent, this.valueKey( score[4] ) ).parse();
+        else if ( score[7] !== undefined ) {
+            obj = new PathDoc( parent, this.valueKey( score[7] ) ).parse();
         }
         // :
-        else if ( score[5] !== undefined ) {
+        else if ( score[8] !== undefined ) {
             obj = findPathFunction.call( this, parent );
         }
         // \\[|\\(
-        else if ( score[6] !== undefined ) {
+        else if ( score[9] !== undefined ) {
             obj = new PathFilter( parent ).parse();
         }
         else {
@@ -802,6 +807,74 @@
         }
     };
 
+
+    /**
+     * @class
+     * @private
+     * @param {*} parent
+     *
+     * @memberOf util.path
+     */
+    function PathLimit( parent, start, limit ) {
+        // this._parent = parent;
+        Object.defineProperty( this, '_parent', { value: parent });
+
+        // this._start = 0;
+        // this._limit = 2;
+
+        this._start = Number(start);
+        this._limit = limit && Math.abs(limit);
+    }
+
+    PathLimit.prototype = {
+        /**
+         * @return {*}
+         */
+        parent: function( fn ) {
+            if ( fn ) {
+                return this._parent && isFunction( this._parent[ fn ] ) && this._parent[ fn ]();
+            }
+            else {
+                return this._parent;
+            }
+        },
+
+        /**
+         * @return {*}
+         */
+        reason: function() {
+            return this._reason || this.parent('reason');
+        },
+
+        /**
+         * @return {*}
+         */
+        specific: function() {
+            return this._specific || this.parent('specific');
+        },
+
+        /**
+         * @return {*}
+         */
+        parse: function() {
+            this.child = findPathDoc.call( this.reason(), this );
+            return this;
+        },
+
+        /**
+         * @return {*}
+         */
+        exec: function( node ) {
+            node.xEach({
+                self: this,
+                start: this._start,
+                limit: this._limit,
+                success: function( item ) {
+                    nextTick.call( this, item );
+                }
+            });
+        }
+    };
 
 
     /**
@@ -1340,14 +1413,12 @@
                     opt.limit = 1;
                     opt.async = false;
                     opt.success = function(e) {
-                        // console.log('pathNode: success e=', e );
                         node = e.data;
                     };
 
                     self.pathFind( opt );
 
                     if ( node === undefined ) {
-                        // console.log('pathNode: node === undefined, preset=', opt.preset );
                         node = opt.preset;
                     }
 
