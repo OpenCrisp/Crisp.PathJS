@@ -1,7 +1,7 @@
 {
 	"name": "crisp-path",
 	"title": "OpenCrisp PathJS",
-	"description": "Object events for NodeJS and Browser Clients",
+	"description": "DSL path language to finde nodes in JavaScript objects with focus of FRD (find, rule and deliver)",
 	"version": "0.1.0",
 	"homepage": "http://opencrisp.wca.at",
 	"author": {

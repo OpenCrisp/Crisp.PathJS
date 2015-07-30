@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.1.0 - 2015-07-24
+/*! OpenCrisp PathJS - v0.1.0 - 2015-07-25
 * http://opencrisp.wca.at
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -41,35 +41,112 @@
     var Break = $$.ns('util.control.Break');
     var End = $$.ns('util.control.End');
 
+
+    /**
+     * Regular Expresion to find /\"/g 
+     * @type {RegExp}
+     *
+     * @memberOf util.path
+     */
     var regDoubleQuote = /\\"/g;
+    
+    /**
+     * Regular Expresion to find /\'/g 
+     * @type {RegExp}
+     *
+     * @memberOf util.path
+     */
     var regSingleQuote = /\\'/g;
 
 
-
-
-    var fnOperator = {
+    /**
+     * @namespace util.path.pathOperator
+     */
+    var pathOperator = {
+        /**
+         * @function util.path.pathOperator.>
+         * @private
+         * 
+         * @param  {*} val0 Value a
+         * @param  {*} val1 Value b
+         * 
+         * @return {external:Boolean}
+         */
         '>': function( val0, val1 ) {
             return val0 > val1;
         },
+        
+        /**
+         * @function util.path.pathOperator.<
+         * @private
+         * 
+         * @param  {*} val0 Value a
+         * @param  {*} val1 Value b
+         * 
+         * @return {external:Boolean}
+         */
         '<': function( val0, val1 ) {
             return val0 < val1;
         },
+        
+        /**
+         * @function util.path.pathOperator.>=
+         * @private
+         * 
+         * @param  {*} val0 Value a
+         * @param  {*} val1 Value b
+         * 
+         * @return {external:Boolean}
+         */
         '>=': function( val0, val1 ) {
             return val0 >= val1;
         },
+
+        /**
+         * @function util.path.pathOperator.<=
+         * @private
+         * 
+         * @param  {*} val0 Value a
+         * @param  {*} val1 Value b
+         * 
+         * @return {external:Boolean}
+         */
         '<=': function( val0, val1 ) {
             return val0 <= val1;
         },
+
+        /**
+         * @function util.path.pathOperator.==
+         * @private
+         * 
+         * @param  {*} val0 Value a
+         * @param  {*} val1 Value b
+         * 
+         * @return {external:Boolean}
+         */
         '==': function( val0, val1 ) {
             return val0 === val1;
         },
+
+        /**
+         * @function util.path.pathOperator.!=
+         * @private
+         * 
+         * @param  {*} val0 Value a
+         * @param  {*} val1 Value b
+         * 
+         * @return {external:Boolean}
+         */
         '!=': function( val0, val1 ) {
             return val0 !== val1;
         }
     };
 
 
-    var fnFind = {
+    /**
+     * @namespace util.path.pathFind
+     */
+    var pathFind = {
 
         '*': function( node ) {
             node.xEach({
@@ -81,7 +158,7 @@
         },
 
         '+': function( node ) {
-            // console.log('fnFind.#', node.docPath(), testSpecific );
+            // console.log('pathFind.#', node.docPath(), testSpecific );
             
             if ( this.child ) {
                 this._specific = this.child.filter;
@@ -97,10 +174,10 @@
         '#': function( node ) {
             var specific = this.specific();
             var testSpecific = specific ? execValue( specific, node ) : true;
-            // console.log('fnFind.#', node.docPath(), testSpecific );
+            // console.log('pathFind.#', node.docPath(), testSpecific );
 
             if ( !testSpecific ) {
-                // console.log('fnFind.#.isField');
+                // console.log('pathFind.#.isField');
                 return;
             }
 
@@ -108,7 +185,7 @@
 
             // if ( node.isField() ) {
             if ( !isType( node.xEach, 'Function' ) ) {
-                // console.log('fnFind.#.isField');
+                // console.log('pathFind.#.isField');
                 return;
             }
 
@@ -119,9 +196,9 @@
             node.xEach({
                 self: this,
                 success: function( item ) {
-                    // console.log('\x1B[31mfnFind.#.xEach', item.docPath(), '\x1B[39m' );
+                    // console.log('\x1B[31mpathFind.#.xEach', item.docPath(), '\x1B[39m' );
 
-                    fnFind['#'].call( this, item );
+                    pathFind['#'].call( this, item );
                 }
             });
         }
@@ -424,7 +501,7 @@
                     value = true;
                 }
 
-                child = fnOperator[ this.operator() ]( child, value );
+                child = pathOperator[ this.operator() ]( child, value );
                 // console.log('-- operator:', this.operator(), child, value );
             }
             
@@ -668,7 +745,7 @@
 
         exec: function( node ) {
             // console.log('PathRepeat.exec', this.type(), node );
-            fnFind[ this.type() ].call( this, node );
+            pathFind[ this.type() ].call( this, node );
         },
 
         type: function() {

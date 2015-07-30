@@ -28,11 +28,11 @@ Use the Node Package Manager (npm) for install crisp-path
     npm install crisp-path
 
 ### Browsers
-```html
+~~~~~~html
 <script type="text/javascript" src="node_modules/crisp-base/dist/crisp-base.min.js"></script>
 <script type="text/javascript" src="node_modules/crisp-event/dist/crisp-event.min.js"></script>
 <script type="text/javascript" src="dist/crisp-path.min.js"></script>
-```
+~~~~~~
 
 ## Usage
 ```javascript
