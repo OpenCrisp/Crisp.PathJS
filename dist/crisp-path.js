@@ -1408,14 +1408,12 @@
                     opt.limit = 1;
                     opt.async = false;
                     opt.success = function(e) {
-                        // console.log('pathNode: success e=', e );
                         node = e;
                     };
 
                     self.pathFind( opt );
 
                     if ( node === undefined ) {
-                        // console.log('pathNode: node === undefined, preset=', opt.preset );
                         node = opt.preset;
                     }
 

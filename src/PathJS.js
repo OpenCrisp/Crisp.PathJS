@@ -1413,7 +1413,7 @@
                     opt.limit = 1;
                     opt.async = false;
                     opt.success = function(e) {
-                        node = e.data;
+                        node = e;
                     };
 
                     self.pathFind( opt );
