@@ -1462,7 +1462,7 @@
                         });
                     }
 
-                    utilTick( self, parsePath, obj );
+                    utilTick( self, parsePath, obj, opt.async );
 
                     return self;
                 }
