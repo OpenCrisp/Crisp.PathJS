@@ -1,9 +1,9 @@
 
-// [doc of EventJS](http://opencrisp.wca.at/docs/module-EventJS.html)<br />
-// [doc of defineEvent](http://opencrisp.wca.at/docs/module-BaseJS.html#defineEvent)
+// [doc of PathJS](http://opencrisp.wca.at/docs/module-PathJS.html)<br />
+// [doc of definePath](http://opencrisp.wca.at/docs/module-BaseJS.html#.definePath)
 
-// ## eventListener
-// [doc of eventListener](http://opencrisp.wca.at/docs/module-EventJS.html#eventListener)
+// ## pathFind
+// [doc of pathFind](http://opencrisp.wca.at/docs/module-PathJS.html#pathFind)
 
 
 

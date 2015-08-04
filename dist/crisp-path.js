@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.1.0 - 2015-07-30
+/*! OpenCrisp PathJS - v0.1.1 - 2015-08-04
 * http://opencrisp.wca.at
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -193,7 +193,8 @@
         '#': function( node ) {
             var specific = this.specific();
             var testSpecific = specific ? execValue( specific, node ) : true;
-            // console.log('pathFind.#', node.docPath(), testSpecific );
+            // console.log('pathFind.#', testSpecific, $$.toType( node ), node );
+            // console.log('pathFind.#', testSpecific, isType( node.xEach, 'Function' ), node );
 
             if ( !testSpecific ) {
                 // console.log('pathFind.#.isField');
@@ -203,10 +204,12 @@
             this.child.exec( node );
 
             // if ( node.isField() ) {
-            if ( !isType( node.xEach, 'Function' ) ) {
+            // if ( !isType( node.xEach, 'Function' ) ) {
+            if ( !isType( node, 'Array' ) && !isType( node, 'Object' ) ) {
                 // console.log('pathFind.#.isField');
                 return;
             }
+            // return;
 
             // if ( node.docNotuse() ) {
             //  return;
@@ -283,8 +286,8 @@
             limit: 1,
             action: 'success',
             listen: function(e) {
-                // console.log('-- execValue: success', e.data );
-                val = e.data;
+                console.log('-- execValue: success', e );
+                val = e;
             }
         });
 
@@ -534,7 +537,8 @@
 
             var picker = reason.eventPicker({
                 cache: reason,
-                action: 'complete'
+                action: 'complete',
+                empty: true
             });
 
             this.condition.xEach({
@@ -988,7 +992,7 @@
          */
         exec: function( node ) {
             // console.log('PathDoc.exec', this.attr() );
-            
+
             if ( !node[ this.attr() ] ) {
                 return;
             }
@@ -1270,7 +1274,8 @@
         
         var picker = reason.eventPicker({
             cache: reason,
-            action: 'complete'
+            action: 'complete',
+            empty: true
         });
 
         reason.eventTrigger({
