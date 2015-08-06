@@ -88,10 +88,45 @@
     
 
     
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>define with <a href="module-BaseJS.html#.definePath">module:BaseJS.definePath</a></li>
+        </ul>
+    </dd>
+    
 
     
 </dl>
 
+
+        
+            <h3>Example</h3>
+            
+        <p class="code-caption">inherit namespace with module:CreateJS</p>
+    
+    <pre class="prettyprint"><code>var myObject = Crisp.utilCreate({
+    ns: 'util.path'
+}).objIni().objData({
+    a: {
+        b: 'B',
+        c: 'C'
+    }
+});
+
+myObject.pathFind({
+    path: 'a.*:',
+    success: function( e ) {
+        console.log('success:', e );
+    },
+    complete: function( e ) {
+        console.log('complete:', e );
+    }
+});
+// logs:
+// success: B
+// success: C
+// complete: [ { data: 'B' }, { data: 'C' } ]</code></pre>
 
         
     
@@ -106,6 +141,9 @@
 
         <dl>
             <dt><a href="util.path.Path.html">Path</a></dt>
+            <dd></dd>
+        
+            <dt><a href="util.path.PathBaseProto.html">PathBaseProto</a></dt>
             <dd></dd>
         
             <dt><a href="util.path.PathCondition.html">PathCondition</a></dt>
@@ -206,7 +244,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line335">line 335</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line361">line 361</a>
     </li></ul></dd>
     
 
@@ -278,7 +316,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line56">line 56</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line83">line 83</a>
     </li></ul></dd>
     
 
@@ -350,7 +388,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line65">line 65</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line92">line 92</a>
     </li></ul></dd>
     
 
@@ -418,7 +456,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line311">line 311</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line337">line 337</a>
     </li></ul></dd>
     
 
@@ -439,6 +477,521 @@
 
     
         <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="._pathExists"><span class="type-signature">(private, static) </span>_pathExists<span class="signature">(path)</span><span class="type-signature"> &rarr; {external:Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    _pathExists
+</div>
+
+
+
+
+
+
+
+    <h5>This:</h5>
+    <ul><li>{this}</li></ul>
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">external:String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1315">line 1315</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-tutorial">Tutorials:</dt>
+    <dd class="tag-tutorial">
+        <ul>
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/PathJS_test.html#pathExists">use pathExists</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/PathJS-path_test.html">more Examples</a></em></li>
+        </ul>
+    </dd>
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="util.path.html#pathExists">util.path#pathExists</a></li>
+        
+            <li><a href="module-PathJS.html#.pathExists">module:PathJS.pathExists</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">external:Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="._pathFind"><span class="type-signature">(private, static) </span>_pathFind<span class="signature">(option)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+<div class="description">
+    _pathFind
+</div>
+
+
+
+
+
+
+
+    <h5>This:</h5>
+    <ul><li>{this}</li></ul>
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>option</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">external:Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1263">line 1263</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-tutorial">Tutorials:</dt>
+    <dd class="tag-tutorial">
+        <ul>
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/PathJS_test.html#pathFind">use pathFind</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/PathJS-path_test.html">more Examples</a></em></li>
+        </ul>
+    </dd>
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="util.path.html#pathFind">util.path#pathFind</a></li>
+        
+            <li><a href="module-PathJS.html#.pathFind">module:PathJS.pathFind</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="._pathNode"><span class="type-signature">(private, static) </span>_pathNode<span class="signature">(option)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+<div class="description">
+    _pathNode
+</div>
+
+
+
+
+
+
+
+    <h5>This:</h5>
+    <ul><li>{this}</li></ul>
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>option</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">external:Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1220">line 1220</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-tutorial">Tutorials:</dt>
+    <dd class="tag-tutorial">
+        <ul>
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/PathJS_test.html#pathNode">use pathNode</a></em></li>
+        
+            <li><em class="disabled">Tutorial: <a href="http://opencrisp.wca.at/tutorials/PathJS-path_test.html">more Examples</a></em></li>
+        </ul>
+    </dd>
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="util.path.html#pathNode">util.path#pathNode</a></li>
+        
+            <li><a href="module-PathJS.html#.pathNode">module:PathJS.pathNode</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>myObject.pathNode('a:'); // 'A'</code></pre>
+
+
 
         
             
@@ -568,7 +1121,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line260">line 260</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line287">line 287</a>
     </li></ul></dd>
     
 
@@ -736,7 +1289,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line280">line 280</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line307">line 307</a>
     </li></ul></dd>
     
 
@@ -881,7 +1434,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line698">line 698</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line707">line 707</a>
     </li></ul></dd>
     
 
@@ -1039,7 +1592,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line245">line 245</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -1084,6 +1637,266 @@
 
 
         
+            
+
+    
+
+    <h4 class="name" id="pathExists"><span class="type-signature"></span>pathExists<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li><a href="util.path.html#._pathExists">util.path._pathExists</a></li>
+        
+    </ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1345">line 1345</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="pathFind"><span class="type-signature"></span>pathFind<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li><a href="util.path.html#._pathFind">util.path._pathFind</a></li>
+        
+    </ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1337">line 1337</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="pathNode"><span class="type-signature"></span>pathNode<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li><a href="util.path.html#._pathNode">util.path._pathNode</a></li>
+        
+    </ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1329">line 1329</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var myObject = Crisp.utilCreate({ ns: 'util.path' });</code></pre>
+
+
+
+        
     
 
     
@@ -1099,13 +1912,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-PathJS.html">PathJS</a></li></ul><h3>Classes</h3><ul><li><a href="util.path.Path.html">Path</a></li><li><a href="util.path.PathCondition.html">PathCondition</a></li><li><a href="util.path.PathConditionGroup.html">PathConditionGroup</a></li><li><a href="util.path.PathDoc.html">PathDoc</a></li><li><a href="util.path.PathFilter.html">PathFilter</a></li><li><a href="util.path.PathFunction.html">PathFunction</a></li><li><a href="util.path.PathLimit.html">PathLimit</a></li><li><a href="util.path.PathParent.html">PathParent</a></li><li><a href="util.path.PathRepeat.html">PathRepeat</a></li><li><a href="util.path.PathValue.html">PathValue</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.path.html">path</a></li><li><a href="util.path.pathFind.html">pathFind</a></li><li><a href="util.path.pathOperator.html">pathOperator</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-PathJS.html">PathJS</a></li></ul><h3>Classes</h3><ul><li><a href="util.path.Path.html">Path</a></li><li><a href="util.path.PathBaseProto.html">PathBaseProto</a></li><li><a href="util.path.PathCondition.html">PathCondition</a></li><li><a href="util.path.PathConditionGroup.html">PathConditionGroup</a></li><li><a href="util.path.PathDoc.html">PathDoc</a></li><li><a href="util.path.PathFilter.html">PathFilter</a></li><li><a href="util.path.PathFunction.html">PathFunction</a></li><li><a href="util.path.PathLimit.html">PathLimit</a></li><li><a href="util.path.PathParent.html">PathParent</a></li><li><a href="util.path.PathRepeat.html">PathRepeat</a></li><li><a href="util.path.PathValue.html">PathValue</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.path.html">path</a></li><li><a href="util.path.pathFind.html">pathFind</a></li><li><a href="util.path.pathOperator.html">pathOperator</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Tue Aug 04 2015 22:48:09 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Thu Aug 06 2015 22:05:26 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -66,7 +66,8 @@
 <li><a href="#links">Links</a></li>
 </ul>
 <h2>Getting Started</h2><h3>NodeJS</h3><p>Use the Node Package Manager (npm) for install crisp-path</p>
-<pre class="prettyprint source"><code>npm install crisp-path</code></pre><h3>Browsers</h3><pre class="prettyprint source lang-html"><code>&lt;script type=&quot;text/javascript&quot; src=&quot;node_modules/crisp-base/dist/crisp-base.min.js&quot;>&lt;/script>
+<pre class="prettyprint source"><code>npm install crisp-path</code></pre><p>or use all of OpenCrisp Utils</p>
+<pre class="prettyprint source"><code>npm install crisp-util</code></pre><h3>Browsers</h3><pre class="prettyprint source lang-html"><code>&lt;script type=&quot;text/javascript&quot; src=&quot;node_modules/crisp-base/dist/crisp-base.min.js&quot;>&lt;/script>
 &lt;script type=&quot;text/javascript&quot; src=&quot;node_modules/crisp-event/dist/crisp-event.min.js&quot;>&lt;/script>
 &lt;script type=&quot;text/javascript&quot; src=&quot;dist/crisp-path.min.js&quot;>&lt;/script></code></pre><h2>Usage</h2><pre class="prettyprint source lang-javascript"><code>// init
 Crisp.definePath( object );
@@ -88,7 +89,76 @@ Crisp.definePath( myObject );</code></pre><pre class="prettyprint source lang-ja
 
 // logs:
 // success: A
-// complete</code></pre><h2>Links</h2><ul>
+// complete</code></pre><p>Path string examples with complete output</p>
+<pre class="prettyprint source lang-javascript"><code>// ## path
+// Object.key
+'a.b:'                          // [ { data: 'B' } ]
+'a.b:toString'                  // [ { data: 'B' } ]
+
+'a:xTo'                         // [ { data: '{&quot;b&quot;:&quot;B&quot;,&quot;c&quot;:&quot;C&quot;}' } ]
+
+'x:'                            // []
+'a.x:'                          // []
+
+// Array.index
+'g.0.h:'                        // [ { data: 'H0' } ]
+
+// ## xEach
+// Object.xEach
+'a.*:'                          // [ { data: 'B' }, { data: 'C' } ]
+
+// Array.xEach
+'g.*.h:'
+// [ { data: 'H0' }, { data: 'H1' }, { data: 'H2' }, { data: 'H3' }, { data: 'H4' }, { data: 'H5' } ]
+
+// ## limit
+// Object.xEach( start, limit ) start
+'a.0~1:'                        // [ { data: 'B' } ]
+
+// Object.xEach( start, limit ) end
+'a.-1:'                         // [ { data: 'C' } ]
+'a.-1~1:'                       // [ { data: 'C' } ]
+
+// Object.xEach( start, limit ) limit on Object.length
+'a.0~10:'                       // [ { data: 'B' }, { data: 'C' } ]
+'a.-10~10:'                     // [ { data: 'B' }, { data: 'C' } ]
+
+// Object.xEach( start, limit ) out of range
+'a.10~10:'                      // []
+
+// Array.xEach( start, limit ) start
+'g.0~1.h:'                      // [ { data: 'H0' } ]
+
+// Array.xEach( start, limit ) end
+'g.-1.h:'                       // [ { data: 'H5' } ]
+'g.-1~1.h:'                     // [ { data: 'H5' } ]
+
+// Array.xEach( start, limit ) limit on Array.length
+'g.0~10.h:'
+'g.-10~10.h:'
+// [ { data: 'H0' }, { data: 'H1' }, { data: 'H2' }, { data: 'H3' }, { data: 'H4' }, { data: 'H5' } ]
+
+// Array.xEach( start, limit ) out of range
+'g.10~10.h:'                    // []
+
+// find all with filter
+'#(h==&quot;H2&quot;).i:'                 // [ { data: 'I2' } ]
+
+'a.#(b==&quot;B&quot;).c:'                // [ { data: 'C' } ]
+
+'a.#(b==&quot;X&quot;).c:'                // []
+
+// find all with specific filter
+'+(!:xType(&quot;Array&quot;)).#:xTo',
+// [
+// { data: '{&quot;a&quot;:{&quot;b&quot;:&quot;B&quot;,&quot;c&quot;:&quot;C&quot;},&quot;g&quot;:[{&quot;h&quot;:&quot;H0&quot;,&quot;i&quot;:&quot;I0&quot;},{&quot;h&quot;:&quot;H1&quot;,&quot;i&quot;:&quot;I1&quot;},{&quot;h&quot;:&quot;H2&quot;,&quot;i&quot;:&quot;I2&quot;},{&quot;h&quot;:&quot;H3&quot;,&quot;i&quot;:&quot;I3&quot;},{&quot;h&quot;:&quot;H4&quot;,&quot;i&quot;:&quot;I4&quot;},{&quot;h&quot;:&quot;H5&quot;,&quot;i&quot;:&quot;I5&quot;}]}' },
+// { data: '{&quot;b&quot;:&quot;B&quot;,&quot;c&quot;:&quot;C&quot;}' },
+// { data: '&quot;B&quot;' },
+// { data: '&quot;C&quot;' }
+// ]
+
+// find all with specific filter and second filter
+'+(!:xType(&quot;Array&quot;)).#(:xType(&quot;field&quot;)):' // [ { data: 'B' }, { data: 'C' } ]</code></pre><h2>Links</h2><ul>
 <li><a href="http://opencrisp.wca.at/docs/module-PathJS.html">Online Crisp.PathJS module Documentation</a></li>
 <li><a href="https://github.com/OpenCrisp/Crisp.PathJS/tree/master/test">More Examples on GitHub.com</a></li>
 <li><a href="https://github.com/OpenCrisp/Crisp.PathJS">Repository on GitHub.com</a></li>
@@ -105,13 +175,13 @@ Crisp.definePath( myObject );</code></pre><pre class="prettyprint source lang-ja
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-PathJS.html">PathJS</a></li></ul><h3>Classes</h3><ul><li><a href="util.path.Path.html">Path</a></li><li><a href="util.path.PathCondition.html">PathCondition</a></li><li><a href="util.path.PathConditionGroup.html">PathConditionGroup</a></li><li><a href="util.path.PathDoc.html">PathDoc</a></li><li><a href="util.path.PathFilter.html">PathFilter</a></li><li><a href="util.path.PathFunction.html">PathFunction</a></li><li><a href="util.path.PathLimit.html">PathLimit</a></li><li><a href="util.path.PathParent.html">PathParent</a></li><li><a href="util.path.PathRepeat.html">PathRepeat</a></li><li><a href="util.path.PathValue.html">PathValue</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.path.html">path</a></li><li><a href="util.path.pathFind.html">pathFind</a></li><li><a href="util.path.pathOperator.html">pathOperator</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-PathJS.html">PathJS</a></li></ul><h3>Classes</h3><ul><li><a href="util.path.Path.html">Path</a></li><li><a href="util.path.PathBaseProto.html">PathBaseProto</a></li><li><a href="util.path.PathCondition.html">PathCondition</a></li><li><a href="util.path.PathConditionGroup.html">PathConditionGroup</a></li><li><a href="util.path.PathDoc.html">PathDoc</a></li><li><a href="util.path.PathFilter.html">PathFilter</a></li><li><a href="util.path.PathFunction.html">PathFunction</a></li><li><a href="util.path.PathLimit.html">PathLimit</a></li><li><a href="util.path.PathParent.html">PathParent</a></li><li><a href="util.path.PathRepeat.html">PathRepeat</a></li><li><a href="util.path.PathValue.html">PathValue</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.path.html">path</a></li><li><a href="util.path.pathFind.html">pathFind</a></li><li><a href="util.path.pathOperator.html">pathOperator</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Tue Aug 04 2015 22:48:09 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Thu Aug 06 2015 22:05:26 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

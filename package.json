@@ -2,7 +2,7 @@
 	"name": "crisp-path",
 	"title": "OpenCrisp PathJS",
 	"description": "DSL path language to finde nodes in JavaScript objects with focus of FRD (find, rule and deliver)",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"homepage": "http://opencrisp.wca.at",
 	"author": {
 		"name": "Fabian Schmid",
@@ -27,6 +27,7 @@
 	},
 	"dependencies": {
         "crisp-base": "latest",
+        "crisp-create": "latest",
 		"crisp-event": "latest"
 	},
 	"devDependencies": {
