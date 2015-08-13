@@ -34,7 +34,7 @@
 
 
     var utilTick        = $$.utilTick;
-    var isType          = $$.isType;
+    var type          = $$.type;
     
 
     var Break = $$.ns('util.control.Break');
@@ -193,8 +193,6 @@
         '#': function( node ) {
             var specific = this.specific();
             var testSpecific = specific ? execValue( specific, node ) : true;
-            // console.log('pathFind.#', testSpecific, $$.toType( node ), node );
-            // console.log('pathFind.#', testSpecific, isType( node.xEach, 'Function' ), node );
 
             if ( !testSpecific ) {
                 // console.log('pathFind.#.isField');
@@ -204,8 +202,7 @@
             this.child.exec( node );
 
             // if ( node.isField() ) {
-            // if ( !isType( node.xEach, 'Function' ) ) {
-            if ( !isType( node, 'Array' ) && !isType( node, 'Object' ) ) {
+            if ( !type.call( node, 'Array' ) && !type.call( node, 'Object' ) ) {
                 // console.log('pathFind.#.isField');
                 return;
             }
@@ -238,7 +235,7 @@
      * @memberOf util.path
      */
     function isFunction( fn ) {
-        return isType( fn, 'Function' );
+        return type.call( fn, 'Function' );
     }
 
 
