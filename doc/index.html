@@ -47,49 +47,254 @@
 <p><a href="https://travis-ci.org/OpenCrisp/Crisp.PathJS"><img src="https://travis-ci.org/OpenCrisp/Crisp.PathJS.svg" alt="Build Status"></a>
 <a href="https://www.npmjs.com/package/crisp-path"><img src="https://img.shields.io/npm/dm/crisp-path.svg" alt="NPM Downloads"></a>
 <a href="https://www.npmjs.com/package/crisp-path"><img src="https://img.shields.io/npm/v/crisp-path.svg" alt="NPM Version"></a></p>
-<p>What is CRISP? Configuration Result In Simplified Programming</p>
-<ul>
-<li>sync / async</li>
-<li>action filter</li>
-<li>note picker</li>
-</ul>
-<h2>Index Table</h2><ul>
-<li><a href="#getting-started">Getting Started</a><ul>
-<li><a href="#nodejs">NodeJS</a></li>
-<li><a href="#browsers">Browsers</a></li>
-</ul>
-</li>
-<li><a href="#usage">Usage</a><ul>
-<li><a href="#quick-example">Quick example</a></li>
-</ul>
-</li>
-<li><a href="#links">Links</a></li>
-</ul>
-<h2>Getting Started</h2><h3>NodeJS</h3><p>Use the Node Package Manager (npm) for install crisp-path</p>
-<pre class="prettyprint source"><code>npm install crisp-path</code></pre><p>or use all of OpenCrisp Utils</p>
-<pre class="prettyprint source"><code>npm install crisp-util</code></pre><h3>Browsers</h3><pre class="prettyprint source lang-html"><code>&lt;script type=&quot;text/javascript&quot; src=&quot;node_modules/crisp-base/dist/crisp-base.min.js&quot;>&lt;/script>
-&lt;script type=&quot;text/javascript&quot; src=&quot;node_modules/crisp-event/dist/crisp-event.min.js&quot;>&lt;/script>
-&lt;script type=&quot;text/javascript&quot; src=&quot;dist/crisp-path.min.js&quot;>&lt;/script></code></pre><h2>Usage</h2><pre class="prettyprint source lang-javascript"><code>// init
-Crisp.definePath( object );
-
-// functions
-object.pathNode( option );
-object.pathFind( option );
-object.pathExists( option );</code></pre><h3>Quick example</h3><pre class="prettyprint source lang-javascript"><code>var myObject = { a: 'A' };
-
-Crisp.definePath( myObject );</code></pre><pre class="prettyprint source lang-javascript"><code>myObject.pathNode('a'); // 'A'</code></pre><pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
-    path: 'a',
-    success: function( item ) {
-        console.log('success:', item );
-    },
-    complete: function( e ) {
-        console.log('complete');
+<pre class="prettyprint source lang-javascript"><code>var myObject = Crisp.utilCreate({
+    ns: 'util.path'
+}).objIni().objData({
+    a: {
+        b: 'B',
+        c: 'C'
     }
 });
 
+// find first node of path
+myObject.pathNode('a.*:');  // 'B'
+
+// find all nodes of path optional asynchronous
+myObject.pathFind({
+    path: 'a.*:',
+    success: function( e ) {
+        console.log('success:', e );
+    },
+    complete: function( e ) {
+        console.log('complete:', e );
+    }
+});
 // logs:
-// success: A
-// complete</code></pre><p>Path string examples with complete output</p>
+// success: B
+// success: C
+// complete: [ { data: 'B' }, { data: 'C' } ]
+
+// check of path exists in object
+myObject.pathExists('a.*:');  // true</code></pre><h2>Index Table</h2><ul>
+<li><a href="#getting-started">Getting Started</a><ul>
+<li><a href="#server-nodes">Server-Nodes</a></li>
+<li><a href="#web-clients">Web-Clients</a></li>
+<li><a href="#development">Development</a></li>
+</ul>
+</li>
+<li><a href="#usage">Usage</a><ul>
+<li><a href="#crispdefinepath">Crisp.definePath()</a></li>
+<li><a href="#crispuitlcreate">Crisp.uitlCreate()</a></li>
+</ul>
+</li>
+<li><a href="#pathjs-function">PathJS function</a><ul>
+<li><a href="#pathnode">.pathNode()</a></li>
+<li><a href="#pathfind">.pathFind()</a></li>
+<li><a href="#pathexists">.pathExists()</a></li>
+</ul>
+</li>
+<li><a href="#path-string-examples">Path string examples</a></li>
+<li><a href="#links">Links</a></li>
+</ul>
+<h2>Getting Started</h2><h3>Server-Nodes</h3><p>Use <a href="https://www.npmjs.org">Node Package Manager (npm)</a> to install <code>crisp-path</code> for <a href="https://nodejs.org/">Node.js</a> and <a href="https://iojs.org/">io.js</a></p>
+<pre class="prettyprint source"><code>$ npm install crisp-path</code></pre><pre class="prettyprint source lang-javascript"><code>// use package
+require(&quot;crisp-path&quot;);</code></pre><p>or use the <a href="https://github.com/OpenCrisp/Crisp.UtilJS">OpenCrisp UtilJS</a> wraper</p>
+<pre class="prettyprint source"><code>$ npm install crisp-util</code></pre><pre class="prettyprint source lang-javascript"><code>// use package
+require(&quot;crisp-util&quot;);</code></pre><h3>Web-Clients</h3><p>Use <a href="http://bower.io/">Bower</a> to install <code>crisp-path</code> for Browsers APP's and other front-end workflows.</p>
+<pre class="prettyprint source"><code>$ bower install crisp-path</code></pre><pre class="prettyprint source lang-html"><code>&lt;!-- use package -->
+&lt;script type=&quot;text/javascript&quot; src=&quot;dist/crisp-path.min.js&quot;>&lt;/script></code></pre><p>or use the <a href="https://github.com/OpenCrisp/Crisp.UtilJS">OpenCrisp UtilJS</a> wraper</p>
+<pre class="prettyprint source"><code>$ bower install crisp-util</code></pre><pre class="prettyprint source lang-html"><code>&lt;!-- use package -->
+&lt;script type=&quot;text/javascript&quot; src=&quot;dist/crisp-util.min.js&quot;>&lt;/script></code></pre><h2>Development</h2><p>Use <a href="https://git-scm.com/">Git</a> to clone <a href="https://github.com/OpenCrisp/Crisp.PathJS">Crisp.PathJS from GitHub</a> to develop the repository with <a href="http://gruntjs.com/">Grunt</a></p>
+<pre class="prettyprint source"><code># Clone:
+$ git clone https://github.com/OpenCrisp/Crisp.PathJS.git
+
+# Build: test, concat, test, minify, test
+$ grunt
+
+# Test: original sourcecode for developer (included in build)
+$ grunt t
+
+# Run all test-scripts on Unix
+$ sh grunt-tests.sh</code></pre><h2>Usage</h2><p>How to use <code>Crisp.PathJS</code> with JavaScript.</p>
+<h3>Crisp.definePath()</h3><p>How to use <code>Crisp.definePath( object )</code> module.</p>
+<pre class="prettyprint source lang-javascript"><code>var myObject = { a: 'A', b: 'B' };
+
+// initialice path property functions on myObject
+Crisp.definePath( myObject );
+
+// find first node of path string
+myObject.pathNode('a:');  // 'A'
+myObject.pathNode('b:');  // 'B'
+myObject.pathNode('*:');  // 'A'</code></pre><h3>Crisp.utilCreate()</h3><p>How to use <code>Crisp.utilCreate( option )</code> with <code>util.path</code> namespace.</p>
+<pre class="prettyprint source lang-javascript"><code>// create object with `util.path` namespace
+var myObject = Crisp.utilCreate({
+    ns: 'util.path'
+}).objIni().objData({ a: 'A', b: 'B' });
+
+// find first node of path string
+myObject.pathNode('a:');  // 'A'
+myObject.pathNode('b:');  // 'B'
+myObject.pathNode('*:');  // 'A'</code></pre><h2>PathJS function</h2><h3>.pathNode()</h3><p>Hot to use <code>.pathNode( path OR option )</code> on <code>myObject</code>.</p>
+<pre class="prettyprint source lang-javascript"><code>// find first node of path string
+myObject.pathNode('b:');  // 'B'
+
+// or with option.path string
+myObject.pathNode({ path: 'b:' });  // 'B'</code></pre><ul>
+<li><a href="#path-pathnode"><strong>path</strong> - find first node with path-string</a> </li>
+<li><strong>option</strong><ul>
+<li><a href="#optionpath-pathnode"><strong>path</strong> - find first node with path-string</a> </li>
+<li><a href="#optionpreset-pathnode"><strong><em>preset</em></strong> - alternate value if path not found</a></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<h4>path (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// find first node of path string
+myObject.pathNode('a:');  // 'A'
+myObject.pathNode('b:');  // 'B'
+myObject.pathNode('*:');  // 'A'</code></pre><blockquote>
+<h4>option.path (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// find first node of option.path string
+myObject.pathNode({ path: 'a:' });  // 'A'
+myObject.pathNode({ path: 'b:' });  // 'B'
+myObject.pathNode({ path: '*:' });  // 'A'</code></pre><blockquote>
+<h4>option.preset (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>// find first node of path string
+myObject.pathNode({
+  path: 'x:', 
+  preset: 'X'
+});
+// 'X'
+
+myObject.pathNode({
+  path: 'x:',
+  preset: function() { return 'X'; }
+});
+// 'X'
+
+myObject.pathNode({
+  path: 'x:'
+});
+// undefined</code></pre><h3>.pathFind()</h3><p>Hot to use <code>.pathFind( option )</code> on <code>myObject</code>.</p>
+<pre class="prettyprint source lang-javascript"><code>var myObject = Crisp.utilCreate({
+    ns: 'util.path'
+}).objIni().objData({ a: 'A', b: 'B' });
+
+myObject.pathFind({
+    path: 'a',
+    success: function( item ) {
+        console.log('Success:', item );
+    },
+    complete: function( e ) {
+        console.log('Complete:', e.List().xTo() );
+    }
+});
+console.log('End');
+
+// logs:
+// Success: A
+// Complete: [{&quot;data&quot;:&quot;A&quot;}]
+// End</code></pre><ul>
+<li><strong>option</strong><ul>
+<li><a href="#optionpath-pathfind"><strong>path</strong> - find nodes with path-string filter</a></li>
+<li><a href="#optionasync-pathfind"><strong><em>async</em></strong> - enable asynchronous callback</a></li>
+<li><a href="#optionsuccess-pathfind"><strong><em>success</em></strong> - callback per find node</a></li>
+<li><a href="#optioncomplete-pathfind"><strong><em>complete</em></strong> - callback on search end</a></li>
+<li><a href="#optionlimit-pathfind"><strong><em>limit</em></strong> - limit to find nodes</a></li>
+<li><a href="#optionstart-pathfind"><strong><em>start</em></strong> - start of find nodes</a></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<h4>option.path (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
+    path: '*',
+    complete: function( e ) {
+        console.log('Complete:', e.List().xTo() );
+    }
+});
+console.log('End');
+
+// logs:
+// Complete: [{&quot;data&quot;:&quot;A&quot;},{&quot;data&quot;:&quot;B&quot;}]
+// End</code></pre><blockquote>
+<h4>option.async (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
+    path: '*',
+    async: true,
+    complete: function( e ) {
+        console.log('Complete:', e.List().xTo() );
+    }
+});
+console.log('End');
+
+// logs:
+// End
+// Complete: [{&quot;data&quot;:&quot;A&quot;},{&quot;data&quot;:&quot;B&quot;}]</code></pre><blockquote>
+<h4>option.success (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
+    path: '*',
+    success: function( item ) {
+        console.log('Success:', item );
+    }
+});
+console.log('End');
+
+// logs:
+// Success: A
+// Success: B
+// End</code></pre><blockquote>
+<h4>option.complete (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
+    path: '*',
+    complete: function( e ) {
+        console.log('Complete:', e.List().xTo() );
+    }
+});
+console.log('End');
+
+// logs:
+// Complete: [{&quot;data&quot;:&quot;A&quot;},{&quot;data&quot;:&quot;B&quot;}]
+// End</code></pre><blockquote>
+<h4>option.limit (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
+    path: '*',
+    limit: 1,
+    complete: function( e ) {
+        console.log('Complete:', e.List().xTo() );
+    }
+});
+console.log('End');
+
+// logs:
+// Complete: [{&quot;data&quot;:&quot;A&quot;}]
+// End</code></pre><blockquote>
+<h4>option.start (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
+    path: '*',
+    start: 1,
+    complete: function( e ) {
+        console.log('Complete:', e.List().xTo() );
+    }
+});
+console.log('End');
+
+// logs:
+// Complete: [{&quot;data&quot;:&quot;B&quot;}]
+// End</code></pre><h3>.pathExists()</h3><p>Hot to use <code>.pathExists( path )</code> on <code>myObject</code>.</p>
+<pre class="prettyprint source lang-javascript"><code>// check of path string exists in myObject
+myObject.pathExists('b');  // true
+myObject.pathExists('*');  // true
+myObject.pathExists('x');  // false</code></pre><h2>Path string examples</h2><p>with callback of complete output</p>
 <pre class="prettyprint source lang-javascript"><code>// ## path
 // Object.key
 'a.b:'                          // [ { data: 'B' } ]
@@ -159,11 +364,12 @@ Crisp.definePath( myObject );</code></pre><pre class="prettyprint source lang-ja
 
 // find all with specific filter and second filter
 '+(!:xType(&quot;Array&quot;)).#(:xType(&quot;field&quot;)):' // [ { data: 'B' }, { data: 'C' } ]</code></pre><h2>Links</h2><ul>
-<li><a href="http://opencrisp.wca.at/docs/module-PathJS.html">Online Crisp.PathJS module Documentation</a></li>
-<li><a href="https://github.com/OpenCrisp/Crisp.PathJS/tree/master/test">More Examples on GitHub.com</a></li>
-<li><a href="https://github.com/OpenCrisp/Crisp.PathJS">Repository on GitHub.com</a></li>
-<li><a href="https://www.npmjs.com/package/crisp-path">npm package on npm.com</a></li>
-<li><a href="https://travis-ci.org/OpenCrisp/Crisp.PathJS">Build History on Travis-ci.org</a></li>
+<li><a href="https://github.com/OpenCrisp/Crisp.PathJS">Repository</a></li>
+<li><a href="https://github.com/OpenCrisp/Crisp.PathJS/tree/master/test">More examples</a></li>
+<li><a href="http://opencrisp.wca.at/docs/module-PathJS.html">Module documentation</a></li>
+<li><a href="https://www.npmjs.com/package/crisp-path">Node package manager</a></li>
+<li><a href="https://www.versioneye.com/nodejs/crisp-path">Version monitoring</a></li>
+<li><a href="https://travis-ci.org/OpenCrisp/Crisp.PathJS">Build history</a></li>
 </ul></article>
     </section>
 
@@ -181,7 +387,7 @@ Crisp.definePath( myObject );</code></pre><pre class="prettyprint source lang-ja
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Thu Aug 13 2015 23:13:49 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Fri Aug 21 2015 15:12:45 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

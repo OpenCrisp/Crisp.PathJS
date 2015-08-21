@@ -1091,10 +1091,13 @@
             return this.child.exec( node );
         }
 
-
         var reason = this.reason();
-        // console.log('nextTick2:', reason );
         
+        // stop callback of success if ._start > 0
+        if ( ( reason._count += 1 ) <= reason._start ) {
+            return;
+        }
+
         var picker = reason.eventPicker({
             cache: reason,
             action: 'complete',
@@ -1170,12 +1173,15 @@
      * @memberOf util.path
      */
     function Path( option ) {
-        this._index = option.index;        // Zeichenposition für regexp
         this._path = option.path;
         this._values = option.values;
         this._preset = option.preset;
         this._limit = option.limit;
+        this._start = option.start;
         this._async = option.async;
+        
+        this._count = 0;        // count of finde node for ._start
+        this._index = 0;        // Zeichenposition für regexp
         // this.level = option.level;        // console log
         // this.filter = option.filter;       // delete
 
@@ -1263,7 +1269,7 @@
         option = option || {};
 
         option.limit = option.limit || -1;
-        option.index = option.index || 0;
+        option.start = option.start || 0;
         // option.level = 0;
 
         var object = new Path( option );

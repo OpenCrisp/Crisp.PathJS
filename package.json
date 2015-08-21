@@ -3,8 +3,8 @@
 	"title": "OpenCrisp PathJS",
 	"description": "DSL path language to finde nodes in JavaScript objects with focus of FRD (find, rule and deliver)",
 	"version": "0.2.1",
-    "main": "dist/crisp-path.js",
-	"homepage": "http://opencrisp.wca.at",
+    "main": "./dist/crisp-path.js",
+	"homepage": "http://opencrisp.wca.at/docs/util.path.html",
 	"author": {
 		"name": "Fabian Schmid",
 		"email": "fabian.schmid@wca.at",
@@ -12,7 +12,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/OpenCrisp/Crisp.PathJS.git"
+		"url": "git://github.com/OpenCrisp/Crisp.PathJS.git"
 	},
 	"bugs": "https://github.com/OpenCrisp/Crisp.PathJS/issues",
 	"license": "MIT",
