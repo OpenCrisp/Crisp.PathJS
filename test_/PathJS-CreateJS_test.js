@@ -31,14 +31,14 @@ exports['pathNode option.path'] = function(assert) {
 
 exports['pathNode option.preset'] = function(assert) {
     var done = assert.done || assert.async();
-    assert.expect(2);
+    assert.expect(3);
 
     var myObject = Crisp.utilCreate({
         ns: 'util.path'
     }).objIni();
     
     assert.strictEqual( myObject.pathNode({ path: 'x:', preset: 'X' }), 'X' );
-    // assert.strictEqual( myObject.pathNode({ path: 'x:', preset: function() { return 'X'; } }), 'X' );
+    assert.strictEqual( myObject.pathNode({ path: 'x:', preset: function() { return 'X'; } }), 'X' );
     assert.strictEqual( myObject.pathNode({ path: 'x:' }), undefined );
 
     done();

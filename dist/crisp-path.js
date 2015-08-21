@@ -1205,8 +1205,13 @@
 
         this.pathFind( option );
 
-        if ( node === undefined ) {
-            node = option.preset;
+        if ( type.call( node, 'Undefined' ) ) {
+            if ( type.call( option.preset, 'Function' ) ) {
+                node = option.preset.call( this );
+            }
+            else {
+                node = option.preset;
+            }
         }
 
         return node;
