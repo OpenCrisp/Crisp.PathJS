@@ -1,0 +1,32 @@
+{
+    "name": "crisp-path",
+    "main": "dist/crisp-path.js",
+    "version": "0.2.2",
+    "homepage": "https://github.com/OpenCrisp/Crisp.PathJS",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/OpenCrisp/Crisp.PathJS.git"
+    },
+    "authors": [
+        "Fabian Schmid <fabian.schmid@wca.at>"
+    ],
+    "description": "DSL path language to finde nodes in JavaScript objects with focus of FRD (find, rule and deliver)",
+    "moduleType": [
+        "globals"
+    ],
+    "keywords": [
+        "OpenCrisp",
+        "async",
+        "path",
+        "xpath",
+        "jspath"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+}

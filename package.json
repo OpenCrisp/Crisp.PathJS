@@ -2,7 +2,7 @@
 	"name": "crisp-path",
 	"title": "OpenCrisp PathJS",
 	"description": "DSL path language to finde nodes in JavaScript objects with focus of FRD (find, rule and deliver)",
-	"version": "0.2.1",
+	"version": "0.2.2",
     "main": "./dist/crisp-path.js",
 	"homepage": "http://opencrisp.wca.at/docs/util.path.html",
 	"author": {
@@ -47,5 +47,11 @@
         "grunt-createunit": "~0.0.3",
         "grunt-jsdoc": "~0.6.7"
 	},
-	"keywords": ["OpenCrisp", "async", "path", "xpath", "jspath"]
+	"keywords": [
+        "OpenCrisp",
+        "async",
+        "path",
+        "xpath",
+        "jspath"
+    ]
 }
