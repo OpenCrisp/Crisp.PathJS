@@ -233,8 +233,9 @@ console.log('End');
    * [**_async_** - enable asynchronous callback](#optionasync-pathfind)
    * [**_success_** - callback per find node](#optionsuccess-pathfind)
    * [**_complete_** - callback on search end](#optioncomplete-pathfind)
-   * [**_limit_** - limit to find nodes](#optionlimit-pathfind)
    * [**_start_** - start of find nodes](#optionstart-pathfind)
+   * [**_limit_** - limit to find nodes](#optionlimit-pathfind)
+   * [**_self_** - thisArg for callback](#optionself-pathfind)
 
 > #### option.path (pathNode)
 > create `myObject` with [`Crisp.utilCreate()`](#crisputilcreate) or initalice with [`Crisp.definePath()`](#crispdefinepath).
@@ -306,6 +307,24 @@ console.log('End');
 // End
 ```
 
+> #### option.start (pathNode)
+> create `myObject` with [`Crisp.utilCreate()`](#crisputilcreate) or initalice with [`Crisp.definePath()`](#crispdefinepath).
+
+```javascript
+myObject.pathFind({
+    path: '*',
+    start: 1,
+    complete: function( e ) {
+        console.log('Complete:', e.List().xTo() );
+    }
+});
+console.log('End');
+
+// logs:
+// Complete: [{"data":"B"}]
+// End
+```
+
 > #### option.limit (pathNode)
 > create `myObject` with [`Crisp.utilCreate()`](#crisputilcreate) or initalice with [`Crisp.definePath()`](#crispdefinepath).
 
@@ -324,21 +343,22 @@ console.log('End');
 // End
 ```
 
-> #### option.start (pathNode)
+> #### option.self (pathNode)
 > create `myObject` with [`Crisp.utilCreate()`](#crisputilcreate) or initalice with [`Crisp.definePath()`](#crispdefinepath).
 
 ```javascript
+var myArg = {};
 myObject.pathFind({
     path: '*',
-    start: 1,
+    self: myArg,
     complete: function( e ) {
-        console.log('Complete:', e.List().xTo() );
+        console.log('Complete:', this === myArg );
     }
 });
 console.log('End');
 
 // logs:
-// Complete: [{"data":"B"}]
+// Complete: true
 // End
 ```
 
