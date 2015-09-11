@@ -422,9 +422,11 @@ with callback of complete output
 // Array.xEach( start, limit ) limit on Array.length
 'g.0~10.h:'
 'g.-10~10.h:'
+'g.-~.h:'
 // [ { data: 'H0' }, { data: 'H1' }, { data: 'H2' }, { data: 'H3' }, { data: 'H4' }, { data: 'H5' } ]
 
 // Array.xEach( start, limit ) out of range
+// default range 0~10
 'g.10~10.h:'                    // []
 
 // find all with filter
