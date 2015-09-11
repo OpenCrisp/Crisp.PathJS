@@ -338,7 +338,7 @@
         '|' +   '(\\[|\\()' +                                               // [4] child = findPathCondition
         '|' +   '(\\]|\\))\\.?' +                                           // [5] END of this PathConditionGroup
 
-        '|' +   '(\\d+(?:\\.\\d+)?)(?!\\.|:)' +                                             // [6] Number
+        '|' +   '(\\d+(?:\\.\\d+)?)(?![\\.:~])' +                           // [6] Number
         '|' +   '(true|false)' +                                            // [7] Boolean String
         '|' +   '"((?:[^"\\\\]*|\\\\"|\\\\)*)"' +                           // [8] DoubleQuotet String
         '|' +   "'((?:[^'\\\\]*|\\\\'|\\\\)*)'" +                           // [9] SingleQuotet String

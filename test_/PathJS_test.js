@@ -122,3 +122,95 @@ exports['pathFind option.self'] = function(assert) {
     assert.ok(1);
     done();
 };
+
+exports['abst.pathFind start/limit default'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [1,2];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '~',
+        success: function( item ) {
+            test.push( item );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[1,2]' );
+    done();
+};
+
+exports['abst.pathFind 1~'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [1,2];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '1~',
+        success: function( item ) {
+            test.push( item );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[2]' );
+    done();
+};
+
+exports['abst.pathFind 1~1'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [1,2];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '1~1',
+        success: function( item ) {
+            test.push( item );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[2]' );
+    done();
+};
+
+exports['abst.pathFind limit'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [1,2];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '~1',
+        success: function( item ) {
+            test.push( item );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[1]' );
+    done();
+};

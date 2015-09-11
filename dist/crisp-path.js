@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.2.2 - 2015-09-11
+/*! OpenCrisp PathJS - v0.3.0 - 2015-09-11
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -306,7 +306,7 @@
         '|' +   '(\\[|\\()' +                                               // [4] child = findPathCondition
         '|' +   '(\\]|\\))\\.?' +                                           // [5] END of this PathConditionGroup
 
-        '|' +   '(\\d+(?:\\.\\d+)?)(?!\\.|:)' +                                             // [6] Number
+        '|' +   '(\\d+(?:\\.\\d+)?)(?![\\.:~])' +                           // [6] Number
         '|' +   '(true|false)' +                                            // [7] Boolean String
         '|' +   '"((?:[^"\\\\]*|\\\\"|\\\\)*)"' +                           // [8] DoubleQuotet String
         '|' +   "'((?:[^'\\\\]*|\\\\'|\\\\)*)'" +                           // [9] SingleQuotet String

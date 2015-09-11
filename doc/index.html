@@ -203,13 +203,14 @@ console.log('End');
 <li><a href="#optionasync-pathfind"><strong><em>async</em></strong> - enable asynchronous callback</a></li>
 <li><a href="#optionsuccess-pathfind"><strong><em>success</em></strong> - callback per find node</a></li>
 <li><a href="#optioncomplete-pathfind"><strong><em>complete</em></strong> - callback on search end</a></li>
-<li><a href="#optionlimit-pathfind"><strong><em>limit</em></strong> - limit to find nodes</a></li>
 <li><a href="#optionstart-pathfind"><strong><em>start</em></strong> - start of find nodes</a></li>
+<li><a href="#optionlimit-pathfind"><strong><em>limit</em></strong> - limit to find nodes</a></li>
+<li><a href="#optionself-pathfind"><strong><em>self</em></strong> - thisArg for callback</a></li>
 </ul>
 </li>
 </ul>
 <blockquote>
-<h4>option.path (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+<h4>option.path (pathFind)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
 </blockquote>
 <pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
     path: '*',
@@ -222,7 +223,7 @@ console.log('End');
 // logs:
 // Complete: [{&quot;data&quot;:&quot;A&quot;},{&quot;data&quot;:&quot;B&quot;}]
 // End</code></pre><blockquote>
-<h4>option.async (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+<h4>option.async (pathFind)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
 </blockquote>
 <pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
     path: '*',
@@ -236,7 +237,7 @@ console.log('End');
 // logs:
 // End
 // Complete: [{&quot;data&quot;:&quot;A&quot;},{&quot;data&quot;:&quot;B&quot;}]</code></pre><blockquote>
-<h4>option.success (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+<h4>option.success (pathFind)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
 </blockquote>
 <pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
     path: '*',
@@ -250,7 +251,7 @@ console.log('End');
 // Success: A
 // Success: B
 // End</code></pre><blockquote>
-<h4>option.complete (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+<h4>option.complete (pathFind)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
 </blockquote>
 <pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
     path: '*',
@@ -263,7 +264,21 @@ console.log('End');
 // logs:
 // Complete: [{&quot;data&quot;:&quot;A&quot;},{&quot;data&quot;:&quot;B&quot;}]
 // End</code></pre><blockquote>
-<h4>option.limit (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+<h4>option.start (pathFind)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+</blockquote>
+<pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
+    path: '*',
+    start: 1,
+    complete: function( e ) {
+        console.log('Complete:', e.List().xTo() );
+    }
+});
+console.log('End');
+
+// logs:
+// Complete: [{&quot;data&quot;:&quot;B&quot;}]
+// End</code></pre><blockquote>
+<h4>option.limit (pathFind)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
 </blockquote>
 <pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
     path: '*',
@@ -277,19 +292,20 @@ console.log('End');
 // logs:
 // Complete: [{&quot;data&quot;:&quot;A&quot;}]
 // End</code></pre><blockquote>
-<h4>option.start (pathNode)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
+<h4>option.self (pathFind)</h4><p>create <code>myObject</code> with <a href="#crisputilcreate"><code>Crisp.utilCreate()</code></a> or initalice with <a href="#crispdefinepath"><code>Crisp.definePath()</code></a>.</p>
 </blockquote>
-<pre class="prettyprint source lang-javascript"><code>myObject.pathFind({
+<pre class="prettyprint source lang-javascript"><code>var myArg = {};
+myObject.pathFind({
     path: '*',
-    start: 1,
+    self: myArg,
     complete: function( e ) {
-        console.log('Complete:', e.List().xTo() );
+        console.log('Complete:', this === myArg );
     }
 });
 console.log('End');
 
 // logs:
-// Complete: [{&quot;data&quot;:&quot;B&quot;}]
+// Complete: true
 // End</code></pre><h3>.pathExists()</h3><p>Hot to use <code>.pathExists( path )</code> on <code>myObject</code>.</p>
 <pre class="prettyprint source lang-javascript"><code>// check of path string exists in myObject
 myObject.pathExists('b');  // true
@@ -387,7 +403,7 @@ myObject.pathExists('x');  // false</code></pre><h2>Path string examples</h2><p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Fri Sep 11 2015 13:30:45 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Fri Sep 11 2015 21:47:01 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
