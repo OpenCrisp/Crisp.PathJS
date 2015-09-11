@@ -1280,6 +1280,7 @@
      * @private
      * 
      * @param  {external:Object} option
+     * @param {AnyItem} option.self alternate thisArg of callback
      *
      * @this {this}
      * @return {*}
@@ -1295,9 +1296,11 @@
      */
     function _pathFind( option ) {
         // console.log('_pathFind');
+        var self;
 
         option = option || {};
 
+        self = option.self || this;
         option.limit = option.limit || -1;
         option.start = option.start || 0;
         // option.level = 0;
@@ -1309,7 +1312,7 @@
         if ( isFunction( option.success ) ) {
             object.eventListener({
                 action: 'success',
-                self: this,
+                self: self,
                 listen: option.success
             });
         }
@@ -1317,7 +1320,7 @@
         if ( isFunction( option.complete ) ) {
             object.eventListener({
                 action: 'complete',
-                self: this,
+                self: self,
                 listen: option.complete
             });
         }

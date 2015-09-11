@@ -96,3 +96,29 @@ exports['pathFind parent'] = function(assert) {
 
     done();
 };
+
+exports['pathFind option.self'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(5);
+        
+    var myObject = { a: 'A', b: 'B' };
+    var mySelf = {};
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: 'a',
+        self: mySelf,
+        success: function( item ) {
+            assert.strictEqual( mySelf, this );
+            assert.strictEqual( myObject.a, item );
+        },
+        complete: function( e ) {
+            assert.strictEqual( mySelf, this );
+            assert.strictEqual( 'complete', e.action );
+        }
+    });
+
+    assert.ok(1);
+    done();
+};

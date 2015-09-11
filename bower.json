@@ -1,7 +1,7 @@
 {
     "name": "crisp-path",
     "main": "dist/crisp-path.js",
-    "version": "0.2.2",
+    "version": "0.3.0ver",
     "homepage": "https://github.com/OpenCrisp/Crisp.PathJS",
     "repository": {
         "type": "git",
