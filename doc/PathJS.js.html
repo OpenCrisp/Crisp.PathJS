@@ -366,7 +366,7 @@
         '|' +   '(\\[|\\()' +                                               // [4] child = findPathCondition
         '|' +   '(\\]|\\))\\.?' +                                           // [5] END of this PathConditionGroup
 
-        '|' +   '([0-9]+(?:\\.[0-9]+)?)(?!\\.|:)' +                                             // [6] Number
+        '|' +   '(\\d+(?:\\.\\d+)?)(?!\\.|:)' +                                             // [6] Number
         '|' +   '(true|false)' +                                            // [7] Boolean String
         '|' +   '"((?:[^"\\\\]*|\\\\"|\\\\)*)"' +                           // [8] DoubleQuotet String
         '|' +   "'((?:[^'\\\\]*|\\\\'|\\\\)*)'" +                           // [9] SingleQuotet String
@@ -442,7 +442,7 @@
             else if ( score[5] !== undefined ) {
                 stop = true;
             }
-            // [0-9\\.]+
+            // (\\d+(?:\\.\\d+)?)(?!\\.|:)
             else if ( score[6] !== undefined ) {
                 condition.child = new PathValue( condition, Number(score[6]) );
             }
@@ -706,14 +706,14 @@
      * @type {external:String}
      */
     var strPathDoc = '\\s*(?:' +
-                '(\\.)' +                                   // [1] Parent Doc
-        '|' +   '(?:(-?[0-9]+)~([0-9]+)|(-[0-9]+))\\.?' +   // [2] Limit items
-        '|' +    '([0-9]+|[a-z][a-z0-9\\-]*)\\.?' +         // [5] Doc Attribute-Name
-        '|' +    '([*#+])\\.?' +                            // [6] Value Node
-        '|' +    '\\$([a-z0-9_]+)\\.?' +                    // [7] Repeat
-        '|' +    '(:)' +                                    // [8] findFunction
-        '|' +    '(\\[|\\()' +                              // [9] findCondition
-        '|' +    '.+' +                                     //     END of findDoc
+                '(\\.)' +                                  // [1] Parent Doc
+        '|' +   '(-?\\d*~\\d*|-\\d+)\\.?' +                // [2] Limit items
+        '|' +   '(\\d+|[a-z][a-z\\d\\-]*)\\.?' +           // [3] Doc Attribute-Name
+        '|' +   '([*#+])\\.?' +                            // [4] Value Node
+        '|' +   '\\$([a-z\\d_]+)\\.?' +                    // [5] Repeat
+        '|' +   '(:)' +                                    // [6] findFunction
+        '|' +   '(\\[|\\()' +                              // [7] findCondition
+        '|' +   '.+' +                                     //     END of findDoc
     ')\\s*';
     
     /**
@@ -748,28 +748,28 @@
         if ( score[1] !== undefined ) {
             obj = new PathParent( parent ).parse();
         }
-        // (?:(-[0-9]+)|(-?[0-9]+)~([0-9]+))\\.?
-        else if ( score[2] !== undefined || score[4] !== undefined ) {
-            obj = new PathLimit( parent, ( score[2] || score[4] ), score[3] ).parse();
+        // (-?\\d*~\\d*|-\\d+)\\.?
+        else if ( score[2] !== undefined ) {
+            obj = new PathLimit( parent, score[2] ).parse();
         }
-        // [0-9]+|[a-z][a-z0-9\\-]*
-        else if ( score[5] !== undefined ) {
-            obj = new PathDoc( parent, score[5] ).parse();
+        // (\\d+|[a-z][a-z\\d\\-]*)\\.?
+        else if ( score[3] !== undefined ) {
+            obj = new PathDoc( parent, score[3] ).parse();
         }
         // [*#+]
-        else if ( score[6] !== undefined ) {
-            obj = new PathRepeat( parent, score[6] ).parse();
+        else if ( score[4] !== undefined ) {
+            obj = new PathRepeat( parent, score[4] ).parse();
         }
-        // \\$([a-z0-9_]+)\\.?
-        else if ( score[7] !== undefined ) {
-            obj = new PathDoc( parent, this.valueKey( score[7] ) ).parse();
+        // \\$([a-z\\d_]+)\\.?
+        else if ( score[5] !== undefined ) {
+            obj = new PathDoc( parent, this.valueKey( score[5] ) ).parse();
         }
         // :
-        else if ( score[8] !== undefined ) {
+        else if ( score[6] !== undefined ) {
             obj = findPathFunction.call( this, parent );
         }
         // \\[|\\(
-        else if ( score[9] !== undefined ) {
+        else if ( score[7] !== undefined ) {
             obj = new PathFilter( parent ).parse();
         }
         else {
@@ -820,6 +820,25 @@
     };
 
 
+    var regPathLimit = /^(-?\d+)?~(\d+)?$/;
+
+    /**
+     * interface fore util.props
+     * @param  {external:String} fn   uitl.props config function
+     * @param  {external:Number}   conf [description]
+     * @param  {external:Number}   alt  [description]
+     * @return {external:Number}        [description]
+     */
+    function configPropsTop( fn, conf, alt ) {
+        try {
+            return this._('config')[ fn ]( conf );
+        }
+        catch (e) {
+            return conf || alt;
+        }
+    }
+
+
     /**
      * @class
      * @private
@@ -827,15 +846,21 @@
      *
      * @memberOf util.path
      */
-    function PathLimit( parent, start, limit ) {
+    // function PathLimit( parent, start, limit ) {
+    function PathLimit( parent, conf ) {
         this._parent = parent;
-        // Object.defineProperty( this, '_parent', { value: parent });
+        
+        // console.log('PathLimit', conf );
 
-        // this._start = 0;
-        // this._limit = 2;
+        if ( regPathLimit.test( conf ) ) {
+            conf = regPathLimit.exec( conf );
 
-        this._start = Number(start);
-        this._limit = limit &amp;&amp; Math.abs(limit);
+            this._start = conf[1];
+            this._limit = conf[2];
+        }
+        else {
+            this._start = conf;
+        }
     }
 
     var pathLimitProto = PathLimit.prototype = new PathBaseProto();
@@ -854,8 +879,8 @@
     pathLimitProto.exec = function( node ) {
         node.xEach({
             self: this,
-            start: this._start,
-            limit: this._limit,
+            start: configPropsTop.call( node, 'optStart', this._start, 0 ),
+            limit: configPropsTop.call( node, 'optLimit', this._limit, 10 ),
             success: function( item ) {
                 nextTick.call( this, item );
             }
@@ -1454,7 +1479,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Fri Aug 21 2015 15:14:47 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Fri Sep 11 2015 13:08:46 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
