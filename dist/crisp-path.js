@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.3.0 - 2015-09-11
+/*! OpenCrisp PathJS - v0.4.1 - 2015-10-02
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -306,7 +306,7 @@
         '|' +   '(\\[|\\()' +                                               // [4] child = findPathCondition
         '|' +   '(\\]|\\))\\.?' +                                           // [5] END of this PathConditionGroup
 
-        '|' +   '(\\d+(?:\\.\\d+)?)(?![\\.:~])' +                           // [6] Number
+        '|' +   '(-?\\d+(?:\\.\\d+)?)(?![\\.:~\\d])' +                      // [6] Number
         '|' +   '(true|false)' +                                            // [7] Boolean String
         '|' +   '"((?:[^"\\\\]*|\\\\"|\\\\)*)"' +                           // [8] DoubleQuotet String
         '|' +   "'((?:[^'\\\\]*|\\\\'|\\\\)*)'" +                           // [9] SingleQuotet String
@@ -353,7 +353,7 @@
             this._index = regCondition.lastIndex;
             countContition += 1;
 
-            // console.log('');
+            // console.log('findPathCondition', score.xTo() );
             // print( this, 'findPathCondition', score );
 
             // \\!=|[<>=]{1,2}
@@ -682,6 +682,7 @@
 
         this._index = regPathDoc.lastIndex;
 
+        // console.log( 'findPathDoc', score.xTo() );
         // print( this, 'findPathDoc', score );
 
         // \\.
@@ -1025,7 +1026,8 @@
         // console.log('PathFunction.exec', this.name() );
 
         if ( !isFunction( node[ this.name() ] ) ) {
-            throw new Error('PathFunction ' + this.name() + ' is not defined!');
+            // throw new Error('PathFunction ' + this.name() + ' is not defined!');
+            return;
         }
 
         node = node[ this.name() ].apply( node, this.args() );
@@ -1271,6 +1273,10 @@
         self = option.self || this;
         option.limit = option.limit || -1;
         option.start = option.start || 0;
+        
+        option.values = option.values || {};
+        option.values.self = option.values.self || this;
+
         // option.level = 0;
 
         var object = new Path( option );

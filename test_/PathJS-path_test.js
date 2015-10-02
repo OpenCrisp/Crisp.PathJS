@@ -59,6 +59,26 @@ var testCase = [
         value: [ { data: 'H0' } ]
     },
 
+    // Array.index typeof object
+    {
+        path: [
+            'g.0:',
+            'g.0:toString',
+            'g.0.:.',
+            ' g 0 : '
+        ],
+        value: [ { data: '[object Object]' } ]
+    },
+
+    // Array.index object
+    {
+        path: [
+            'g.0',
+            ' g 0 '
+        ],
+        value: [ { data: { h: 'H0', i: 'I0' } } ]
+    },
+
     // ## xEach
     // Object.xEach
     {
@@ -300,6 +320,48 @@ var testCase = [
         value: [
             { data: 'B' },
             { data: 'C' }
+        ]
+    },
+
+    // Number value
+    {
+        path: [
+            '20',
+            ' 20 '
+        ],
+        value: [
+            { data: 20 }
+        ]
+    },
+    {
+        path: [
+            '-1',
+            ' -1 '
+        ],
+        value: [
+            { data: -1 }
+        ]
+    },
+    {
+        path: [
+            '1.01',
+            ' 1.01 '
+        ],
+        value: [
+            { data: 1.01 }
+        ]
+    },
+
+    // String value
+    {
+        path: [
+            '"abc"',
+            ' "abc" ',
+            "'abc'",
+            " 'abc' "
+        ],
+        value: [
+            { data: 'abc' }
         ]
     }
 ];

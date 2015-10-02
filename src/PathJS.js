@@ -338,7 +338,7 @@
         '|' +   '(\\[|\\()' +                                               // [4] child = findPathCondition
         '|' +   '(\\]|\\))\\.?' +                                           // [5] END of this PathConditionGroup
 
-        '|' +   '(\\d+(?:\\.\\d+)?)(?![\\.:~])' +                           // [6] Number
+        '|' +   '(-?\\d+(?:\\.\\d+)?)(?![\\.:~\\d])' +                      // [6] Number
         '|' +   '(true|false)' +                                            // [7] Boolean String
         '|' +   '"((?:[^"\\\\]*|\\\\"|\\\\)*)"' +                           // [8] DoubleQuotet String
         '|' +   "'((?:[^'\\\\]*|\\\\'|\\\\)*)'" +                           // [9] SingleQuotet String
@@ -385,7 +385,7 @@
             this._index = regCondition.lastIndex;
             countContition += 1;
 
-            // console.log('');
+            // console.log('findPathCondition', score.xTo() );
             // print( this, 'findPathCondition', score );
 
             // \\!=|[<>=]{1,2}
@@ -714,6 +714,7 @@
 
         this._index = regPathDoc.lastIndex;
 
+        // console.log( 'findPathDoc', score.xTo() );
         // print( this, 'findPathDoc', score );
 
         // \\.
@@ -1057,7 +1058,8 @@
         // console.log('PathFunction.exec', this.name() );
 
         if ( !isFunction( node[ this.name() ] ) ) {
-            throw new Error('PathFunction ' + this.name() + ' is not defined!');
+            // throw new Error('PathFunction ' + this.name() + ' is not defined!');
+            return;
         }
 
         node = node[ this.name() ].apply( node, this.args() );
@@ -1303,6 +1305,10 @@
         self = option.self || this;
         option.limit = option.limit || -1;
         option.start = option.start || 0;
+        
+        option.values = option.values || {};
+        option.values.self = option.values.self || this;
+
         // option.level = 0;
 
         var object = new Path( option );
