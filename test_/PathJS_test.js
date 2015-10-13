@@ -171,7 +171,88 @@ exports['pathFind option.self'] = function(assert) {
     done();
 };
 
-exports['item.pathFind default values'] = function(assert) {
+exports['item.pathFind values.item value'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(5);
+        
+    var myObject = { a: 'A', b: 'B' };
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: 'a:==$item',
+        values: {
+            item: 'A'
+        },
+        success: function( item ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( true, item );
+        },
+        complete: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'complete', e.action );
+        }
+    });
+
+    assert.ok(1);
+    done();
+};
+
+exports['item.pathFind values.item path'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(5);
+        
+    var myObject = { a: 'A', b: 'B' };
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '$item:',
+        values: {
+            item: 'a'
+        },
+        success: function( item ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'A', item );
+        },
+        complete: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'complete', e.action );
+        }
+    });
+
+    assert.ok(1);
+    done();
+};
+
+exports['item.pathFind values.item child.path'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(5);
+        
+    var myObject = { a: { b: 'B' } };
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: 'a.$item:',
+        values: {
+            item: 'b'
+        },
+        success: function( item ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'B', item );
+        },
+        complete: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'complete', e.action );
+        }
+    });
+
+    assert.ok(1);
+    done();
+};
+
+exports['item.pathFind values $self'] = function(assert) {
     var done = assert.done || assert.async();
     assert.expect(5);
         

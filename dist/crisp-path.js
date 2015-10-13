@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.4.1 - 2015-10-02
+/*! OpenCrisp PathJS - v0.4.1 - 2015-10-13
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -311,7 +311,7 @@
         '|' +   '"((?:[^"\\\\]*|\\\\"|\\\\)*)"' +                           // [8] DoubleQuotet String
         '|' +   "'((?:[^'\\\\]*|\\\\'|\\\\)*)'" +                           // [9] SingleQuotet String
         '|' +   '\\/((?:[^\\/\\\\]*|\\\\\\/|\\\\)+)\\/([igm]{1,3})?' +      // [10] RegExp inclusive Flags
-        '|' +   '\\$([\\w]+)' +                                             // [11] varName for includet values
+        '|' +   '\\$([\\w]+)\\s?(?![\\w\\.:])' +                                             // [11] varName for includet values
         
         '|' +   '.+' +                      //     parse() findPathDoc
     ')\\s*';
@@ -1023,7 +1023,7 @@
      * @return {*}
      */
     pathFunctionProto.exec = function( node ) {
-        // console.log('PathFunction.exec', this.name() );
+        // console.log('PathFunction.exec', node, this.name() );
 
         if ( !isFunction( node[ this.name() ] ) ) {
             // throw new Error('PathFunction ' + this.name() + ' is not defined!');
@@ -1154,7 +1154,7 @@
                 return;
             }
 
-            throw new Error(err);
+            throw err;
         }
 
     }

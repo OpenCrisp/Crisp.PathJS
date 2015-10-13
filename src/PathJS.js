@@ -343,7 +343,7 @@
         '|' +   '"((?:[^"\\\\]*|\\\\"|\\\\)*)"' +                           // [8] DoubleQuotet String
         '|' +   "'((?:[^'\\\\]*|\\\\'|\\\\)*)'" +                           // [9] SingleQuotet String
         '|' +   '\\/((?:[^\\/\\\\]*|\\\\\\/|\\\\)+)\\/([igm]{1,3})?' +      // [10] RegExp inclusive Flags
-        '|' +   '\\$([\\w]+)' +                                             // [11] varName for includet values
+        '|' +   '\\$([\\w]+)\\s?(?![\\w\\.:])' +                            // [11] varName for includet values
         
         '|' +   '.+' +                      //     parse() findPathDoc
     ')\\s*';
@@ -1186,7 +1186,7 @@
                 return;
             }
 
-            throw new Error(err);
+            throw err;
         }
 
     }
