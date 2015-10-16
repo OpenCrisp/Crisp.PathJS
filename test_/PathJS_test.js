@@ -438,3 +438,95 @@ exports['abst.pathFind inlay path value'] = function(assert) {
     assert.strictEqual( test, '[20]' );
     done();
 };
+
+exports['abst.pathFind filter interger'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [{ a: 1 },{ a: 2 }];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '*(a>1)',
+        success: function( item ) {
+            test.push( item.a );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[2]' );
+    done();
+};
+
+exports['abst.pathFind filter new Number()'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [{ a: new Number(1) },{ a: new Number(2) }];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '*(a>1)',
+        success: function( item ) {
+            test.push( item.a );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[2]' );
+    done();
+};
+
+exports['abst.pathFind filter boolean'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [{ a: true },{ a: false }];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '*(!!a)',
+        success: function( item ) {
+            test.push( item.a );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[true]' );
+    done();
+};
+
+exports['abst.pathFind filter new Boolean()'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [{ a: new Boolean(1) },{ a: new Boolean() }];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '*(!!a)',
+        success: function( item ) {
+            test.push( item.a );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[true]' );
+    done();
+};

@@ -222,3 +222,65 @@ exports['pathExists'] = function(assert) {
 
     done();
 };
+
+exports['abst.pathFind function arguments'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(2);
+    
+    var myObject = Crisp.utilCreate({
+        ns: 'util.path',
+        prototypes: {
+            myFn: function() {
+                // console.log('filter:', arguments );
+                return arguments;
+            }
+        }
+    }).objIni().objData([{ a: 'A' }, { a: 'B' }]);
+    
+    myObject.pathFind({
+        path: ':myFn("list","*\\(a>20\\)")',
+        success: function( item ) {
+            // console.log('Success:', item );
+            // assert.deepEqual({ '0': 'list', '1': '*(a>20)' }, item );
+            assert.strictEqual( 'list', item[0] );
+            assert.strictEqual( '*(a>20)', item[1] );
+        }
+    });
+
+    done();
+};
+
+exports['abst.pathFind filter'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(2);
+
+    var testCount = 0;
+    var testData = [{ data: 11 }, { data: 22 }];
+    
+    var mySub = Crisp.utilCreate({
+        ns: 'util.path',
+        prototypes: {
+            myFilter: function() {
+                console.log('filter:', arguments );
+            }
+        }
+    });
+
+    var myObject = Crisp.utilCreate({
+        ns: 'util.path'
+    }).objIni().objData([
+        mySub.objClone().objData({ a: 11 }),
+        mySub.objClone().objData({ a: 22 })
+    ]);
+    
+    myObject.pathFind({
+        path: '*',
+        success: function( item ) {
+            // console.log('Success:', item );
+            assert.strictEqual( testData[ testCount++ ].data, item.a );
+        }
+    });
+    // console.log('End');
+
+    done();
+};

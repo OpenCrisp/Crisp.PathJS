@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.4.1 - 2015-10-13
+/*! OpenCrisp PathJS - v0.4.2 - 2015-10-16
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -311,7 +311,7 @@
         '|' +   '"((?:[^"\\\\]*|\\\\"|\\\\)*)"' +                           // [8] DoubleQuotet String
         '|' +   "'((?:[^'\\\\]*|\\\\'|\\\\)*)'" +                           // [9] SingleQuotet String
         '|' +   '\\/((?:[^\\/\\\\]*|\\\\\\/|\\\\)+)\\/([igm]{1,3})?' +      // [10] RegExp inclusive Flags
-        '|' +   '\\$([\\w]+)\\s?(?![\\w\\.:])' +                                             // [11] varName for includet values
+        '|' +   '\\$([\\w]+)\\s?(?![\\w\\.:])' +                            // [11] varName for includet values
         
         '|' +   '.+' +                      //     parse() findPathDoc
     ')\\s*';
@@ -982,7 +982,7 @@
             obj = new PathFunction( parent, score[2] );
 
             if ( score[3] && score[3].length > 0 ) {
-                obj._args = JSON.parse('['+score[3]+']');
+                obj._args = JSON.parse('[' + score[3].replace(/\\\)/,')') + ']');
             }
         }
         else {
@@ -1023,7 +1023,7 @@
      * @return {*}
      */
     pathFunctionProto.exec = function( node ) {
-        // console.log('PathFunction.exec', node, this.name() );
+        // console.log('PathFunction.exec', this.name() );
 
         if ( !isFunction( node[ this.name() ] ) ) {
             // throw new Error('PathFunction ' + this.name() + ' is not defined!');

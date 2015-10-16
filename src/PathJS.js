@@ -285,8 +285,8 @@
         var i=0;
 
         for (; i<reverse; i+=1 ) {
-            // console.log('execReverse:', typeof node, node );
-            node = (node==='false' || node===false) ? true : !node;
+            // console.log('execReverse:', type.call( node ), new Boolean(node) );
+            node = (node==='false' || node===false || ( type.call( node, 'Boolean' ) && !node.valueOf() ) ) ? true : !node;
         }
 
         return node;
@@ -986,6 +986,7 @@
     var tplFunctionArgs = '(?:[^)\\\\]*|\\\\\\)|\\\\)+';
     var strFunction = '(?:(\\.)|(\\w+)(?:\\((' + tplFunctionArgs + ')\\))?\\.?)\\s*|.+';
     var regFunction = new RegExp( strFunction, 'g' );
+    var reqFunctionEscape = /\\([\(\)])/g;
 
     function findPathFunction( parent ) {
         var score;
@@ -1014,7 +1015,7 @@
             obj = new PathFunction( parent, score[2] );
 
             if ( score[3] && score[3].length > 0 ) {
-                obj._args = JSON.parse('['+score[3]+']');
+                obj._args = JSON.parse('[' + score[3].replace( reqFunctionEscape, '$1' ) + ']');
             }
         }
         else {
