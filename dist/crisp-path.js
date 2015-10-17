@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.4.2 - 2015-10-16
+/*! OpenCrisp PathJS - v0.4.7 - 2015-10-17
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -253,8 +253,23 @@
         var i=0;
 
         for (; i<reverse; i+=1 ) {
-            // console.log('execReverse:', typeof node, node );
-            node = (node==='false' || node===false) ? true : !node;
+            // console.log('execReverse:', type.call( node ), Boolean(node), node.valueOf() );
+            
+            node = (
+                type.call( node, 'Undefined' ) ||
+                node==='false' ||
+                node===false ||
+                (
+                    type.call( node, 'Boolean' ) && 
+                    !node.valueOf()
+                ) || 
+                (
+                    type.call( node.itemFetch, 'Function' ) &&
+                    type.call( node.isBoolean, 'Function' ) &&
+                    node.isBoolean() &&
+                    !node.itemFetch()
+                )
+            ) ? true : !node;
         }
 
         return node;
@@ -954,6 +969,7 @@
     var tplFunctionArgs = '(?:[^)\\\\]*|\\\\\\)|\\\\)+';
     var strFunction = '(?:(\\.)|(\\w+)(?:\\((' + tplFunctionArgs + ')\\))?\\.?)\\s*|.+';
     var regFunction = new RegExp( strFunction, 'g' );
+    var reqFunctionEscape = /\\([\(\)])/g;
 
     function findPathFunction( parent ) {
         var score;
@@ -982,7 +998,7 @@
             obj = new PathFunction( parent, score[2] );
 
             if ( score[3] && score[3].length > 0 ) {
-                obj._args = JSON.parse('[' + score[3].replace(/\\\)/,')') + ']');
+                obj._args = JSON.parse('[' + score[3].replace( reqFunctionEscape, '$1' ) + ']');
             }
         }
         else {

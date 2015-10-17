@@ -466,7 +466,7 @@ exports['abst.pathFind filter new Number()'] = function(assert) {
     var done = assert.done || assert.async();
     assert.expect(1);
         
-    var myObject = [{ a: new Number(1) },{ a: new Number(2) }];
+    var myObject = [{ a: Number(1) },{ a: Number(2) }];
     var test = [];
 
     Crisp.definePath( myObject );
@@ -511,8 +511,10 @@ exports['abst.pathFind filter boolean'] = function(assert) {
 exports['abst.pathFind filter new Boolean()'] = function(assert) {
     var done = assert.done || assert.async();
     assert.expect(1);
+
+    var Fn = Boolean;
         
-    var myObject = [{ a: new Boolean(1) },{ a: new Boolean() }];
+    var myObject = [{ a: new Fn(1) },{ a: new Fn() }];
     var test = [];
 
     Crisp.definePath( myObject );

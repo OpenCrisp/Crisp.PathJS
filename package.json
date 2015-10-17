@@ -2,7 +2,7 @@
 	"name": "crisp-path",
 	"title": "OpenCrisp PathJS",
 	"description": "DSL path language to finde nodes in JavaScript objects with focus of FRD (find, rule and deliver)",
-	"version": "0.4.3",
+	"version": "0.4.8",
     "main": "./dist/crisp-path.js",
 	"homepage": "http://opencrisp.wca.at/docs/util.path.html",
 	"author": {

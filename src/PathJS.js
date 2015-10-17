@@ -285,8 +285,23 @@
         var i=0;
 
         for (; i<reverse; i+=1 ) {
-            // console.log('execReverse:', type.call( node ), new Boolean(node) );
-            node = (node==='false' || node===false || ( type.call( node, 'Boolean' ) && !node.valueOf() ) ) ? true : !node;
+            // console.log('execReverse:', type.call( node ), Boolean(node), node.valueOf() );
+            
+            node = (
+                type.call( node, 'Undefined' ) ||
+                node==='false' ||
+                node===false ||
+                (
+                    type.call( node, 'Boolean' ) && 
+                    !node.valueOf()
+                ) || 
+                (
+                    type.call( node.itemFetch, 'Function' ) &&
+                    type.call( node.isBoolean, 'Function' ) &&
+                    node.isBoolean() &&
+                    !node.itemFetch()
+                )
+            ) ? true : !node;
         }
 
         return node;
