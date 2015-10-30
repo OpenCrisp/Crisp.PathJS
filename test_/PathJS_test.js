@@ -370,6 +370,29 @@ exports['abst.pathFind limit'] = function(assert) {
     done();
 };
 
+exports['abst.pathFind limit reverse filter'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [1,2,3];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '+(:<"3").-1.',
+        success: function( item ) {
+            test.push( item );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[2]' );
+    done();
+};
+
 exports['abst.pathFind first of index'] = function(assert) {
     var done = assert.done || assert.async();
     assert.expect(1);

@@ -219,6 +219,15 @@ var testCase = [
         value: [ { data: 'H0' }, { data: 'H1' }, { data: 'H2' }, { data: 'H3' }, { data: 'H4' }, { data: 'H5' } ]
     },
 
+    // {
+    //     path: [
+    //         'g.10~10.h:',
+    //         'g.10~10.h.:.',
+    //         ' g 10~10 h : '
+    //     ],
+    //     value: []
+    // },,
+
     // Array.xEach( start, limit ) out of range
     {
         path: [

@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.4.7 - 2015-10-17
+/*! OpenCrisp PathJS - v0.4.9 - 2015-10-30
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -264,10 +264,9 @@
                     !node.valueOf()
                 ) || 
                 (
-                    type.call( node.itemFetch, 'Function' ) &&
                     type.call( node.isBoolean, 'Function' ) &&
                     node.isBoolean() &&
-                    !node.itemFetch()
+                    !node.valueOf()
                 )
             ) ? true : !node;
         }
@@ -838,6 +837,13 @@
             start: configPropsTop.call( node, 'optStart', this._start, 0 ),
             limit: configPropsTop.call( node, 'optLimit', this._limit, 10 ),
             success: function( item ) {
+                var specific = this.specific();
+                var testSpecific = specific ? execValue( specific, item ) : true;
+
+                if ( !testSpecific ) {
+                    throw new Break();
+                }
+
                 nextTick.call( this, item );
             }
         });

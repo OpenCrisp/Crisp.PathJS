@@ -296,10 +296,9 @@
                     !node.valueOf()
                 ) || 
                 (
-                    type.call( node.itemFetch, 'Function' ) &&
                     type.call( node.isBoolean, 'Function' ) &&
                     node.isBoolean() &&
-                    !node.itemFetch()
+                    !node.valueOf()
                 )
             ) ? true : !node;
         }
@@ -870,6 +869,13 @@
             start: configPropsTop.call( node, 'optStart', this._start, 0 ),
             limit: configPropsTop.call( node, 'optLimit', this._limit, 10 ),
             success: function( item ) {
+                var specific = this.specific();
+                var testSpecific = specific ? execValue( specific, item ) : true;
+
+                if ( !testSpecific ) {
+                    throw new Break();
+                }
+
                 nextTick.call( this, item );
             }
         });
