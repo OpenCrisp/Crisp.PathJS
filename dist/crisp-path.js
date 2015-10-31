@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v0.5.0 - 2015-10-31
+/*! OpenCrisp PathJS - v0.5.1 - 2015-10-31
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2015 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -38,7 +38,7 @@
     
 
     // var Break = $$.ns('util.control.Break');
-    // var End = $$.ns('util.control.End');
+    var End = $$.ns('util.control.End');
     var EndPath = function() {};
 
 
@@ -457,7 +457,7 @@
             // console.log('PathConditionGroup.exec &', tmp );
 
             if ( !tmp ) {
-                throw new EndPath();
+                throw new End();
             }
             return;
         }
@@ -473,7 +473,7 @@
                     args: tmp
                 });
 
-                throw new EndPath();
+                throw new End();
             }
             return;
         }

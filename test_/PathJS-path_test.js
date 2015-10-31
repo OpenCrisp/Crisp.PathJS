@@ -128,6 +128,19 @@ var testCase = [
         value: [ { data: 'H5' }, { data: 'H4' }, { data: 'H3' }, { data: 'H2' }, { data: 'H1' }, { data: 'H0' } ]
     },
 
+    // Array.xEach filter
+    {
+        path: [ 'g.*.(i>"I3").h:' ],
+        value: [ { data: 'H4' }, { data: 'H5' } ]
+    },
+    {
+        path: [
+            'g.*.( i>"I2" & i<"I5" ).h:',
+            'g.*.( i=="I3" | i=="I4" ).h:'
+        ],
+        value: [ { data: 'H3' }, { data: 'H4' } ]
+    },
+
     // ## limit
     // Object.xEach( start, limit ) start
     {

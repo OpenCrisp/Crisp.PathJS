@@ -531,6 +531,52 @@ exports['abst.pathFind filter interger'] = function(assert) {
     done();
 };
 
+exports['abst.pathFind filter &'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [{ a: 1 },{ a: 2 },{ a: 3 },{ a: 4 }];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '*.( a>1 & a<4 )',
+        success: function( item ) {
+            test.push( item.a );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[2,3]' );
+    done();
+};
+
+exports['abst.pathFind filter |'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = [{ a: 1 },{ a: 2 },{ a: 3 },{ a: 4 }];
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '*.( a<2 | a>3 )',
+        success: function( item ) {
+            test.push( item.a );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[1,4]' );
+    done();
+};
+
 exports['abst.pathFind filter new Number()'] = function(assert) {
     var done = assert.done || assert.async();
     assert.expect(1);
