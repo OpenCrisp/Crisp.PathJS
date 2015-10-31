@@ -393,9 +393,16 @@ with callback of complete output
 // Object.xEach
 'a.*:'                          // [ { data: 'B' }, { data: 'C' } ]
 
+// Object.xEach reverse
+'a.^*:'                         // [ { data: 'C' }, { data: 'B' } ]
+
 // Array.xEach
 'g.*.h:'
 // [ { data: 'H0' }, { data: 'H1' }, { data: 'H2' }, { data: 'H3' }, { data: 'H4' }, { data: 'H5' } ]
+
+// Array.xEach reverse
+'g.^*.h:'
+// [ { data: 'H5' }, { data: 'H4' }, { data: 'H3' }, { data: 'H2' }, { data: 'H1' }, { data: 'H0' } ]
 
 // ## limit
 // Object.xEach( start, limit ) start
@@ -413,7 +420,10 @@ with callback of complete output
 'a.10~10:'                      // []
 
 // Array.xEach( start, limit ) start
-'g.0~1.h:'                      // [ { data: 'H0' } ]
+'g.0~2.h:'                      // [ { data: 'H0' }, { data: 'H1' } ]
+
+// Array.xEach( start, limit ) start reverse
+'g.^0~2.h:'                     // [ { data: 'H5' }, { data: 'H4' } ]
 
 // Array.xEach( start, limit ) end
 'g.-1.h:'                       // [ { data: 'H5' } ]

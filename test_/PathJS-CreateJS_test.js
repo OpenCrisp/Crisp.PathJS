@@ -151,6 +151,7 @@ exports['pathFind option.limit'] = function(assert) {
     }).objIni().objData({ a: 'A', b: 'B' });
     
     myObject.pathFind({
+        // path: '~1.',
         path: '*',
         limit: 1,
         complete: function( e ) {

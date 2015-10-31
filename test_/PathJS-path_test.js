@@ -92,6 +92,18 @@ var testCase = [
         value: [ { data: 'B' }, { data: 'C' } ]
     },
 
+    // Object.xEach reverse
+    {
+        path: [
+            'a.^*:',
+            'a.^*:toString',
+            'a.^*.:.',
+            'a^*:',
+            ' a ^* : '
+        ],
+        value: [ { data: 'C' }, { data: 'B' } ]
+    },
+
     // Array.xEach
     {
         path: [
@@ -104,6 +116,18 @@ var testCase = [
         value: [ { data: 'H0' }, { data: 'H1' }, { data: 'H2' }, { data: 'H3' }, { data: 'H4' }, { data: 'H5' } ]
     },
 
+    // Array.xEach reverse
+    {
+        path: [
+            'g.^*.h:',
+            'g.^*.h:toString',
+            'g.^*.h.:.',
+            'g^*h:',
+            ' g ^* h : ',
+        ],
+        value: [ { data: 'H5' }, { data: 'H4' }, { data: 'H3' }, { data: 'H2' }, { data: 'H1' }, { data: 'H0' } ]
+    },
+
     // ## limit
     // Object.xEach( start, limit ) start
     {
@@ -111,6 +135,36 @@ var testCase = [
             'a.0~1:',
             'a.0~1.:.',
             ' a 0~1 : '
+        ],
+        value: [ { data: 'B' } ]
+    },
+
+    // Object.xEach( start, limit ) start 1
+    {
+        path: [
+            'a.1~1:',
+            'a.1~1.:.',
+            ' a 1~1 : '
+        ],
+        value: [ { data: 'C' } ]
+    },
+
+    // Object.xEach( start, limit ) start reverse
+    {
+        path: [
+            'a.^0~1:',
+            'a.^0~1.:.',
+            ' a ^0~1 : '
+        ],
+        value: [ { data: 'C' } ]
+    },
+
+    // Object.xEach( start, limit ) start 1 reverse
+    {
+        path: [
+            'a.^1~1:',
+            'a.^1~1.:.',
+            ' a ^1~1 : '
         ],
         value: [ { data: 'B' } ]
     },
@@ -131,6 +185,24 @@ var testCase = [
             ' a -1~1 : ',
         ],
         value: [ { data: 'C' } ]
+    },
+
+    // Object.xEach( start, limit ) end reverse
+    {
+        path: [
+            'a.^-1:',
+            'a.^-1.:.',
+            ' a ^-1 : ',
+
+            'a.^-1~:',
+            'a.^-1~.:.',
+            ' a ^-1~ : ',
+
+            'a.^-1~1:',
+            'a.^-1~1.:.',
+            ' a ^-1~1 : ',
+        ],
+        value: [ { data: 'B' } ]
     },
 
     // Object.xEach( start, limit ) limit on Object.length
@@ -281,6 +353,26 @@ var testCase = [
             ' # ( h == "H2" ) i : ',
         ],
         value: [ { data: 'I2' } ]
+    },
+
+    {
+        path: [
+            '#(h>"H3").i:',
+            '#(h>"H3")i:',
+            '#.(h.>"H3").i.:.',
+            ' # ( h > "H3" ) i : ',
+        ],
+        value: [ { data: 'I4' }, { data: 'I5' } ]
+    },
+
+    {
+        path: [
+            '^#(h<"H2").i:',
+            '^#(h<"H2")i:',
+            '^#.(h.<"H2").i.:.',
+            ' ^# ( h < "H2" ) i : ',
+        ],
+        value: [ { data: 'I1' }, { data: 'I0' } ]
     },
 
     {

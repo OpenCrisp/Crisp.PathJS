@@ -69,8 +69,9 @@
     var type          = $$.type;
     
 
-    var Break = $$.ns('util.control.Break');
-    var End = $$.ns('util.control.End');
+    // var Break = $$.ns('util.control.Break');
+    // var End = $$.ns('util.control.End');
+    var EndPath = function() {};
 
 
     /**
@@ -190,6 +191,7 @@
         '*': function( node ) {
             node.xEach({
                 self: this,
+                reverse: this._revlist,
                 success: function( item ) {
                     nextTick.call( this, item );
                 }
@@ -246,6 +248,7 @@
 
             node.xEach({
                 self: this,
+                reverse: this._revlist,
                 success: function( item ) {
                     // console.log('\x1B[31mpathFind.#.xEach', item.xTo(), '\x1B[39m' );
 
@@ -486,7 +489,7 @@
             // console.log('PathConditionGroup.exec &', tmp );
 
             if ( !tmp ) {
-                throw new Break();
+                throw new EndPath();
             }
             return;
         }
@@ -502,7 +505,7 @@
                     args: tmp
                 });
 
-                throw new Break();
+                throw new EndPath();
             }
             return;
         }
@@ -692,14 +695,14 @@
      * @type {external:String}
      */
     var strPathDoc = '\\s*(?:' +
-                '(\\.)' +                                  // [1] Parent Doc
-        '|' +   '(-?\\d*~\\d*|-\\d+)\\.?' +                // [2] Limit items
-        '|' +   '(\\d+|[a-z][a-z\\d\\-]*)\\.?' +           // [3] Doc Attribute-Name
-        '|' +   '([*#+])\\.?' +                            // [4] Value Node
-        '|' +   '\\$([a-z\\d_]+)\\.?' +                    // [5] Repeat
-        '|' +   '(:)' +                                    // [6] findFunction
-        '|' +   '(\\[|\\()' +                              // [7] findCondition
-        '|' +   '.+' +                                     //     END of findDoc
+                '(\\.)' +                                  // [1]   Parent Doc
+        '|' +   '(\\^)?(-?\\d*~\\d*|-\\d+)\\.?' +          // [2,3] Limit items
+        '|' +   '(\\d+|[a-z][a-z\\d\\-]*)\\.?' +           // [4]   Doc Attribute-Name
+        '|' +   '(\\^)?([*#+])\\.?' +                      // [5,6] Value Node
+        '|' +   '\\$([a-z\\d_]+)\\.?' +                    // [7]   Repeat
+        '|' +   '(:)' +                                    // [8]   findFunction
+        '|' +   '(\\[|\\()' +                              // [9]   findCondition
+        '|' +   '.+' +                                     //       END of findDoc
     ')\\s*';
     
     /**
@@ -731,32 +734,34 @@
         // console.log( 'findPathDoc', score.xTo() );
         // print( this, 'findPathDoc', score );
 
-        // \\.
+        // (\\.)
         if ( score[1] !== undefined ) {
             obj = new PathParent( parent ).parse();
         }
-        // (-?\\d*~\\d*|-\\d+)\\.?
-        else if ( score[2] !== undefined ) {
-            obj = new PathLimit( parent, score[2] ).parse();
+        // (\\^)?(-?\\d*~\\d*|-\\d+)\\.?
+        else if ( score[3] !== undefined ) {
+            obj = new PathLimit( parent, score[3] ).parse();
+            obj._revlist = score[2];
         }
         // (\\d+|[a-z][a-z\\d\\-]*)\\.?
-        else if ( score[3] !== undefined ) {
-            obj = new PathDoc( parent, score[3] ).parse();
-        }
-        // [*#+]
         else if ( score[4] !== undefined ) {
-            obj = new PathRepeat( parent, score[4] ).parse();
+            obj = new PathDoc( parent, score[4] ).parse();
+        }
+        // (\\^)?([*#+])\\.?
+        else if ( score[6] !== undefined ) {
+            obj = new PathRepeat( parent, score[6] ).parse();
+            obj._revlist = score[5];
         }
         // \\$([a-z\\d_]+)\\.?
-        else if ( score[5] !== undefined ) {
-            obj = new PathDoc( parent, this.valueKey( score[5] ) ).parse();
+        else if ( score[7] !== undefined ) {
+            obj = new PathDoc( parent, this.valueKey( score[7] ) ).parse();
         }
-        // :
-        else if ( score[6] !== undefined ) {
+        // (:)
+        else if ( score[8] !== undefined ) {
             obj = findPathFunction.call( this, parent );
         }
-        // \\[|\\(
-        else if ( score[7] !== undefined ) {
+        // (\\[|\\()
+        else if ( score[9] !== undefined ) {
             obj = new PathFilter( parent ).parse();
         }
         else {
@@ -866,6 +871,7 @@
     pathLimitProto.exec = function( node ) {
         node.xEach({
             self: this,
+            reverse: this._revlist,
             start: configPropsTop.call( node, 'optStart', this._start, 0 ),
             limit: configPropsTop.call( node, 'optLimit', this._limit, 10 ),
             success: function( item ) {
@@ -873,7 +879,7 @@
                 var testSpecific = specific ? execValue( specific, item ) : true;
 
                 if ( !testSpecific ) {
-                    throw new Break();
+                    throw new EndPath();
                 }
 
                 nextTick.call( this, item );
@@ -1168,7 +1174,7 @@
         if ( reason._limit !== -1 && picker._note.Length() >= reason._limit ) {
             // console.log('nextTick.limit', reason._limit, picker.note.list.own );
             picker.Talk();
-            throw new End();
+            throw new EndPath();
         }
     }
 
@@ -1192,7 +1198,7 @@
         }
         catch (err) {
 
-            if ( err instanceof End ) {
+            if ( err instanceof EndPath ) {
                 return;
             }
             else if ( reason._preset !== undefined ) {
@@ -1204,9 +1210,9 @@
 
                 return;
             }
-            else if ( err instanceof Break ) {
-                return;
-            }
+            // else if ( err instanceof Break ) {
+            //     return;
+            // }
 
             throw err;
         }
