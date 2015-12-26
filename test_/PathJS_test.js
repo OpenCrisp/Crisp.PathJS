@@ -16,19 +16,48 @@ exports['pathFind'] = function(assert) {
 
     Crisp.definePath( myObject );
 
-    myObject.pathFind({
-        path: 'a',
-        success: function( item ) {
+    myObject.pathFind(
+        {
+            path: 'a'
+        },
+        function ( item ) {
             assert.strictEqual( myObject, this );
             assert.strictEqual( myObject.a, item );
         },
-        complete: function( e ) {
+        function ( e ) {
             assert.strictEqual( myObject, this );
             assert.strictEqual( 'complete', e.action );
         }
-    });
+    );
 
     assert.ok(1);
+    done();
+};
+
+exports['pathFind concat'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = { a: 'A', b: 'B' };
+    var text = '';
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind(
+        {
+            path: 'a:',
+            values: undefined,
+            preset: ''
+        },
+        function ( item ) {
+            text = text.concat(item);
+        },
+        function () {
+            text = text.concat(' end');
+            assert.strictEqual( text, 'A end' );
+        }
+    );
+
     done();
 };
 
@@ -278,6 +307,111 @@ exports['item.pathFind values $self'] = function(assert) {
     done();
 };
 
+exports['item.pathFind values $self function'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(5);
+        
+    var myObject = { a: 'A', b: 'B' };
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '($self).a:toLowerCase',
+        success: function( item ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'a', item );
+        },
+        complete: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'complete', e.action );
+        }
+    });
+
+    assert.ok(1);
+    done();
+};
+
+exports['item.pathFind values self find'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(5);
+        
+    var myObject = { 
+        list: [
+            // { a: 'AA', b: 'AB' },
+            { a: 'BA', b: 'BB' },
+            // { a: 'CA', b: 'CB' },
+        ],
+        is: 'BA'
+    };
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: 'list.*( a: == $self.is: ).b:',
+        // path: 'lists:',
+        // values: { x: 'X' },
+        success: function( item ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'BB', item );
+        },
+        complete: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'complete', e.action );
+        }
+    });
+
+    assert.ok(1);
+    done();
+};
+
+exports['item.pathFind values deep'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(5);
+        
+    var myObject = {};
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '( $a & ( $a=="A" & $b ) )',
+        values: { a: 'A', b: 'B' },
+        success: function( item ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'B', item );
+        },
+        complete: function( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'complete', e.action );
+        }
+    });
+
+    assert.ok(1);
+    done();
+};
+
+exports['item.pathFind start/limit default'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+        
+    var myObject = { a: 'A', b: 'B', c: 'C' }; 
+    var test = [];
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind({
+        path: '1~1',
+        success: function( item ) {
+            test.push( item );
+        },
+        complete: function() {
+            test = '[' + test.join(',') + ']';
+        }
+    });
+
+    assert.strictEqual( test, '[B]' );
+    done();
+};
+
 exports['abst.pathFind start/limit default'] = function(assert) {
     var done = assert.done || assert.async();
     assert.expect(1);
@@ -287,15 +421,17 @@ exports['abst.pathFind start/limit default'] = function(assert) {
 
     Crisp.definePath( myObject );
 
-    myObject.pathFind({
-        path: '~',
-        success: function( item ) {
+    myObject.pathFind(
+        {
+            path: '~'
+        },
+        function ( item ) {
             test.push( item );
         },
-        complete: function() {
+        function () {
             test = '[' + test.join(',') + ']';
         }
-    });
+    );
 
     assert.strictEqual( test, '[1,2]' );
     done();
@@ -546,6 +682,7 @@ exports['abst.pathFind filter &'] = function(assert) {
             test.push( item.a );
         },
         complete: function() {
+            // console.log( test );
             test = '[' + test.join(',') + ']';
         }
     });

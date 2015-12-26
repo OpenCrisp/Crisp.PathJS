@@ -28,9 +28,7 @@
 
 <header>
     
-        <h2>
-        path
-        </h2>
+        <h2>path</h2>
         
     
 </header>
@@ -244,7 +242,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line375">line 375</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line405">line 405</a>
     </li></ul></dd>
     
 
@@ -316,7 +314,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line84">line 84</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line94">line 94</a>
     </li></ul></dd>
     
 
@@ -388,7 +386,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line93">line 93</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -456,7 +454,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line351">line 351</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line381">line 381</a>
     </li></ul></dd>
     
 
@@ -586,7 +584,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1385">line 1385</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1725">line 1725</a>
     </li></ul></dd>
     
 
@@ -805,7 +803,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1327">line 1327</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1662">line 1662</a>
     </li></ul></dd>
     
 
@@ -826,7 +824,22 @@ myObject.pathFind({
         <ul>
             <li><a href="util.path.html#pathFind">util.path#pathFind</a></li>
         
-            <li><a href="module-PathJS.html#.pathFind">module:PathJS.pathFind</a></li>
+            <li>module:PathJS.pathFind
+//     {
+//         path: [
+//             '+( :xType("Array").. == "false" ).#:xTo',
+//             // '+(!:xType("Array"))#:xTo',
+//             // '+.(!:xType("Array")).#.:xTo.',
+//             // ' + ( !:xType("Array") ) # : xTo ',
+//         ],
+//         value: [
+//             { data: '{"a":{"b":"B","c":"C"},"g":[{"h":"H0","i":"I0"},{"h":"H1","i":"I1"},{"h":"H2","i":"I2"},{"h":"H3","i":"I3"},{"h":"H4","i":"I4"},{"h":"H5","i":"I5"}]}' },
+//             { data: '{"b":"B","c":"C"}' },
+//             { data: '"B"' },
+//             { data: '"C"' }
+//         ]
+//     }
+// ];</li>
         </ul>
     </dd>
     
@@ -975,7 +988,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1278">line 1278</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1598">line 1598</a>
     </li></ul></dd>
     
 
@@ -1039,346 +1052,6 @@ myObject.pathFind({
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>myObject.pathNode('a:'); // 'A'</code></pre>
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".execReverse"><span class="type-signature">(private, static) </span>execReverse<span class="signature">(reverse, node)</span><span class="type-signature"> &rarr; {external:Boolean}</span></h4>
-
-    
-
-
-
-<div class="description">
-    reverse given node
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>reverse</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">external:Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>node</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line287">line 287</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">external:Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".execValue"><span class="type-signature">(private, static) </span>execValue<span class="signature">(ref, node)</span><span class="type-signature"> &rarr; {*}</span></h4>
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>ref</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>node</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line321">line 321</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">*</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -1483,7 +1156,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line721">line 721</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line894">line 894</a>
     </li></ul></dd>
     
 
@@ -1641,7 +1314,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line272">line 272</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line311">line 311</a>
     </li></ul></dd>
     
 
@@ -1676,6 +1349,346 @@ myObject.pathFind({
     <dd>
         
 <span class="param-type">external:Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".pickReverseEach"><span class="type-signature">(private, static) </span>pickReverseEach<span class="signature">(reverse, node)</span><span class="type-signature"> &rarr; {external:Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    reverse given node
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>reverse</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">external:Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>node</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line692">line 692</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">external:Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".pickValue"><span class="type-signature">(private, static) </span>pickValue<span class="signature">(ref, node)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ref</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>node</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line324">line 324</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
 
 
     </dd>
@@ -1744,7 +1757,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1415">line 1415</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1755">line 1755</a>
     </li></ul></dd>
     
 
@@ -1829,7 +1842,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1407">line 1407</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1747">line 1747</a>
     </li></ul></dd>
     
 
@@ -1914,7 +1927,7 @@ myObject.pathFind({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1399">line 1399</a>
+        <a href="PathJS.js.html">PathJS.js</a>, <a href="PathJS.js.html#line1739">line 1739</a>
     </li></ul></dd>
     
 
@@ -1967,7 +1980,7 @@ myObject.pathFind({
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Sat Oct 31 2015 19:48:55 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 26 2015 23:53:52 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

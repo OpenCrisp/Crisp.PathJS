@@ -27,11 +27,11 @@ var testCase = [
             'a.b.:.',
             ' a b : '
         ],
-        value: [ { data: 'B' } ]
+        value: [ 'B' ]
     },
     {
         path: ['a:xTo'],
-        value: [ { data: '{"b":"B","c":"C"}' } ]
+        value: [ '{"b":"B","c":"C"}' ]
     },
     {
         path: [
@@ -56,7 +56,7 @@ var testCase = [
             'g.0.h.:.',
             ' g 0 h : '
         ],
-        value: [ { data: 'H0' } ]
+        value: [ 'H0' ]
     },
 
     // Array.index typeof object
@@ -67,7 +67,7 @@ var testCase = [
             'g.0.:.',
             ' g 0 : '
         ],
-        value: [ { data: '[object Object]' } ]
+        value: [ '[object Object]' ]
     },
 
     // Array.index object
@@ -76,7 +76,7 @@ var testCase = [
             'g.0',
             ' g 0 '
         ],
-        value: [ { data: { h: 'H0', i: 'I0' } } ]
+        value: [ { h: 'H0', i: 'I0' } ]
     },
 
     // ## xEach
@@ -89,7 +89,7 @@ var testCase = [
             'a*:',
             ' a * : '
         ],
-        value: [ { data: 'B' }, { data: 'C' } ]
+        value: [ 'B', 'C' ]
     },
 
     // Object.xEach reverse
@@ -101,7 +101,7 @@ var testCase = [
             'a^*:',
             ' a ^* : '
         ],
-        value: [ { data: 'C' }, { data: 'B' } ]
+        value: [ 'C', 'B' ]
     },
 
     // Array.xEach
@@ -113,7 +113,7 @@ var testCase = [
             'g*h:',
             ' g * h : ',
         ],
-        value: [ { data: 'H0' }, { data: 'H1' }, { data: 'H2' }, { data: 'H3' }, { data: 'H4' }, { data: 'H5' } ]
+        value: [ 'H0', 'H1', 'H2', 'H3', 'H4', 'H5' ]
     },
 
     // Array.xEach reverse
@@ -125,20 +125,20 @@ var testCase = [
             'g^*h:',
             ' g ^* h : ',
         ],
-        value: [ { data: 'H5' }, { data: 'H4' }, { data: 'H3' }, { data: 'H2' }, { data: 'H1' }, { data: 'H0' } ]
+        value: [ 'H5', 'H4', 'H3', 'H2', 'H1', 'H0' ]
     },
 
     // Array.xEach filter
     {
         path: [ 'g.*.(i>"I3").h:' ],
-        value: [ { data: 'H4' }, { data: 'H5' } ]
+        value: [ 'H4', 'H5' ]
     },
     {
         path: [
             'g.*.( i>"I2" & i<"I5" ).h:',
             'g.*.( i=="I3" | i=="I4" ).h:'
         ],
-        value: [ { data: 'H3' }, { data: 'H4' } ]
+        value: [ 'H3', 'H4' ]
     },
 
     // ## limit
@@ -149,7 +149,7 @@ var testCase = [
             'a.0~1.:.',
             ' a 0~1 : '
         ],
-        value: [ { data: 'B' } ]
+        value: [ 'B' ]
     },
 
     // Object.xEach( start, limit ) start 1
@@ -159,7 +159,7 @@ var testCase = [
             'a.1~1.:.',
             ' a 1~1 : '
         ],
-        value: [ { data: 'C' } ]
+        value: [ 'C' ]
     },
 
     // Object.xEach( start, limit ) start reverse
@@ -169,7 +169,7 @@ var testCase = [
             'a.^0~1.:.',
             ' a ^0~1 : '
         ],
-        value: [ { data: 'C' } ]
+        value: [ 'C' ]
     },
 
     // Object.xEach( start, limit ) start 1 reverse
@@ -179,7 +179,7 @@ var testCase = [
             'a.^1~1.:.',
             ' a ^1~1 : '
         ],
-        value: [ { data: 'B' } ]
+        value: [ 'B' ]
     },
 
     // Object.xEach( start, limit ) end
@@ -197,7 +197,7 @@ var testCase = [
             'a.-1~1.:.',
             ' a -1~1 : ',
         ],
-        value: [ { data: 'C' } ]
+        value: [ 'C' ]
     },
 
     // Object.xEach( start, limit ) end reverse
@@ -215,7 +215,7 @@ var testCase = [
             'a.^-1~1.:.',
             ' a ^-1~1 : ',
         ],
-        value: [ { data: 'B' } ]
+        value: [ 'B' ]
     },
 
     // Object.xEach( start, limit ) limit on Object.length
@@ -233,7 +233,7 @@ var testCase = [
             'a.~.:.',
             ' a ~ : '
         ],
-        value: [ { data: 'B' }, { data: 'C' } ]
+        value: [ 'B', 'C' ]
     },
 
     // Object.xEach( start, limit ) out of range
@@ -261,7 +261,7 @@ var testCase = [
             'g.~1.h.:.',
             ' g ~1 h : '
         ],
-        value: [ { data: 'H0' } ]
+        value: [ 'H0' ]
     },
 
     // Array.xEach( start, limit ) end
@@ -283,7 +283,7 @@ var testCase = [
             'g.5~.h.:.',
             ' g 5~ h : ',
         ],
-        value: [ { data: 'H5' } ]
+        value: [ 'H5' ]
     },
 
     // Array.xEach( start, limit ) limit on Array.length
@@ -301,17 +301,17 @@ var testCase = [
             'g.~.h.:.',
             ' g ~ h : '
         ],
-        value: [ { data: 'H0' }, { data: 'H1' }, { data: 'H2' }, { data: 'H3' }, { data: 'H4' }, { data: 'H5' } ]
+        value: [ 'H0', 'H1', 'H2', 'H3', 'H4', 'H5' ]
     },
 
-    // {
-    //     path: [
-    //         'g.10~10.h:',
-    //         'g.10~10.h.:.',
-    //         ' g 10~10 h : '
-    //     ],
-    //     value: []
-    // },,
+    {
+        path: [
+            'g.10~10.h:',
+            'g.10~10.h.:.',
+            ' g 10~10 h : '
+        ],
+        value: []
+    },
 
     // Array.xEach( start, limit ) out of range
     {
@@ -331,29 +331,29 @@ var testCase = [
             ' # : xTo '
         ],
         value: [
-            { data: '{"a":{"b":"B","c":"C"},"g":[{"h":"H0","i":"I0"},{"h":"H1","i":"I1"},{"h":"H2","i":"I2"},{"h":"H3","i":"I3"},{"h":"H4","i":"I4"},{"h":"H5","i":"I5"}]}' },
-            { data: '{"b":"B","c":"C"}' },
-            { data: '"B"' },
-            { data: '"C"' },
-            { data: '[{"h":"H0","i":"I0"},{"h":"H1","i":"I1"},{"h":"H2","i":"I2"},{"h":"H3","i":"I3"},{"h":"H4","i":"I4"},{"h":"H5","i":"I5"}]' },
-            { data: '{"h":"H0","i":"I0"}' },
-            { data: '"H0"' },
-            { data: '"I0"' },
-            { data: '{"h":"H1","i":"I1"}' },
-            { data: '"H1"' },
-            { data: '"I1"' },
-            { data: '{"h":"H2","i":"I2"}' },
-            { data: '"H2"' },
-            { data: '"I2"' },
-            { data: '{"h":"H3","i":"I3"}' },
-            { data: '"H3"' },
-            { data: '"I3"' },
-            { data: '{"h":"H4","i":"I4"}' },
-            { data: '"H4"' },
-            { data: '"I4"' },
-            { data: '{"h":"H5","i":"I5"}' },
-            { data: '"H5"' },
-            { data: '"I5"' }
+            '{"a":{"b":"B","c":"C"},"g":[{"h":"H0","i":"I0"},{"h":"H1","i":"I1"},{"h":"H2","i":"I2"},{"h":"H3","i":"I3"},{"h":"H4","i":"I4"},{"h":"H5","i":"I5"}]}',
+            '{"b":"B","c":"C"}',
+            '"B"',
+            '"C"',
+            '[{"h":"H0","i":"I0"},{"h":"H1","i":"I1"},{"h":"H2","i":"I2"},{"h":"H3","i":"I3"},{"h":"H4","i":"I4"},{"h":"H5","i":"I5"}]',
+            '{"h":"H0","i":"I0"}',
+            '"H0"',
+            '"I0"',
+            '{"h":"H1","i":"I1"}',
+            '"H1"',
+            '"I1"',
+            '{"h":"H2","i":"I2"}',
+            '"H2"',
+            '"I2"',
+            '{"h":"H3","i":"I3"}',
+            '"H3"',
+            '"I3"',
+            '{"h":"H4","i":"I4"}',
+            '"H4"',
+            '"I4"',
+            '{"h":"H5","i":"I5"}',
+            '"H5"',
+            '"I5"'
         ]
     },
 
@@ -365,7 +365,7 @@ var testCase = [
             '#.(h.=="H2").i.:.',
             ' # ( h == "H2" ) i : ',
         ],
-        value: [ { data: 'I2' } ]
+        value: [ 'I2' ]
     },
 
     {
@@ -375,7 +375,7 @@ var testCase = [
             '#.(h.>"H3").i.:.',
             ' # ( h > "H3" ) i : ',
         ],
-        value: [ { data: 'I4' }, { data: 'I5' } ]
+        value: [ 'I4', 'I5' ]
     },
 
     {
@@ -385,7 +385,7 @@ var testCase = [
             '^#.(h.<"H2").i.:.',
             ' ^# ( h < "H2" ) i : ',
         ],
-        value: [ { data: 'I1' }, { data: 'I0' } ]
+        value: [ 'I1', 'I0' ]
     },
 
     {
@@ -395,7 +395,7 @@ var testCase = [
             'a.#.(b.=="B").c.:.',
             ' a # ( b == "B" ) c : ',
         ],
-        value: [ { data: 'C' } ]
+        value: [ 'C' ]
     },
     {
         path: [
@@ -416,10 +416,10 @@ var testCase = [
             ' + ( !:xType("Array") ) # : xTo ',
         ],
         value: [
-            { data: '{"a":{"b":"B","c":"C"},"g":[{"h":"H0","i":"I0"},{"h":"H1","i":"I1"},{"h":"H2","i":"I2"},{"h":"H3","i":"I3"},{"h":"H4","i":"I4"},{"h":"H5","i":"I5"}]}' },
-            { data: '{"b":"B","c":"C"}' },
-            { data: '"B"' },
-            { data: '"C"' }
+            '{"a":{"b":"B","c":"C"},"g":[{"h":"H0","i":"I0"},{"h":"H1","i":"I1"},{"h":"H2","i":"I2"},{"h":"H3","i":"I3"},{"h":"H4","i":"I4"},{"h":"H5","i":"I5"}]}',
+            '{"b":"B","c":"C"}',
+            '"B"',
+            '"C"'
         ]
     },
 
@@ -432,8 +432,8 @@ var testCase = [
             ' + ( !:xType("Array") ) # ( :xType("field") ) : ',
         ],
         value: [
-            { data: 'B' },
-            { data: 'C' }
+            'B',
+            'C'
         ]
     },
 
@@ -444,7 +444,7 @@ var testCase = [
             ' 20 '
         ],
         value: [
-            { data: 20 }
+            20
         ]
     },
     {
@@ -453,7 +453,7 @@ var testCase = [
             ' -1 '
         ],
         value: [
-            { data: -1 }
+            -1
         ]
     },
     {
@@ -462,7 +462,7 @@ var testCase = [
             ' 1.01 '
         ],
         value: [
-            { data: 1.01 }
+            1.01
         ]
     },
 
@@ -475,7 +475,7 @@ var testCase = [
             " 'abc' "
         ],
         value: [
-            { data: 'abc' }
+            'abc'
         ]
     }
 ];
@@ -483,10 +483,40 @@ var testCase = [
 // testCase = [
 //     {
 //         path: [
-//             'a.b:'
+//             'g.^*.h:',
+//             'g.^*.h:toString',
+//             'g.^*.h.:.',
+//             'g^*h:',
+//             ' g ^* h : ',
 //         ],
-//         value: [ { data: 'B' } ]
-//     },
+//         value: [ 'H5', 'H4', 'H3', 'H2', 'H1', 'H0' ]
+//     }
+// ];
+
+// testCase = [
+//     {
+//         path: [
+//             '+( :xType("Array").. == "false" ).#:xTo',
+//             // '+(!:xType("Array"))#:xTo',
+//             // '+.(!:xType("Array")).#.:xTo.',
+//             // ' + ( !:xType("Array") ) # : xTo ',
+//         ],
+//         value: [
+//             { data: '{"a":{"b":"B","c":"C"},"g":[{"h":"H0","i":"I0"},{"h":"H1","i":"I1"},{"h":"H2","i":"I2"},{"h":"H3","i":"I3"},{"h":"H4","i":"I4"},{"h":"H5","i":"I5"}]}' },
+//             { data: '{"b":"B","c":"C"}' },
+//             { data: '"B"' },
+//             { data: '"C"' }
+//         ]
+//     }
+// ];
+
+// testCase = [
+//     {
+//         path: [
+//             'g.0~1.h:'
+//         ],
+//         value: [ 'H0' ]
+//     }
 // ];
 
 
@@ -497,10 +527,10 @@ var testCase = [
     Crisp.utilCreate({ ns: 'util.path' }).objData( testObject ),
 
     // define PathJS function on given object
-    (function() {
-        Crisp.definePath( testObject );
-        return testObject;
-    })()
+    // (function() {
+    //     Crisp.definePath( testObject );
+    //     return testObject;
+    // })()
 
 ].forEach(function( use, index ) {
     var useTitle = index ? 'definePath' : 'namespace';
@@ -512,6 +542,7 @@ var testCase = [
 
                 var testLength = test.value.length + 2;
                 var testCount = 0;
+                var testList = [];
 
                 // if ( testLength > 1 ) {
                 //     testLength += 1;
@@ -519,21 +550,24 @@ var testCase = [
 
                 assert.expect( testLength );
                 
-                use.pathFind({
-                    path: path,
-                    success: function( item ) {
+                use.pathFind(
+                    {
+                        path: path
+                    },
+                    function( item ) {
                         // if ( testExit++ > 50 ) {
                         //     throw new Error();
                         // }
 
                         // console.log('success', item );
-                        assert.deepEqual( test.value[ testCount++ ].data, item );
+                        assert.deepEqual( test.value[ testCount++ ], item );
+                        testList.push( item );
                     },
-                    complete: function( e ) {
+                    function() {
                         // console.log('complete', e );
-                        assert.deepEqual( test.value, e.List() );
+                        assert.deepEqual( test.value, testList );
                     }
-                });
+                );
 
                 assert.equal( test.value.length, testCount );
 
@@ -550,6 +584,7 @@ var testCase = [
 
                 var testLength = test.value.length + 2;
                 var testCount = 0;
+                var testList = [];
 
                 // if ( testLength > 1 ) {
                 //     testLength += 1;
@@ -564,11 +599,12 @@ var testCase = [
                     async: true,
                     success: function( item ) {
                         // console.log('success');
-                        assert.deepEqual( test.value[ testCount++ ].data, item );
+                        assert.deepEqual( test.value[ testCount++ ], item );
+                        testList.push( item );
                     },
-                    complete: function( e ) {
+                    complete: function() {
                         // console.log('complete');
-                        assert.deepEqual( test.value, e.List() );
+                        assert.deepEqual( test.value, testList );
                         done();
                     }
                 });
@@ -579,57 +615,75 @@ var testCase = [
     });
 
 
-    testCase.forEach(function( test ) {
-        test.path.forEach(function( path ) {
-            exports[ useTitle + ': pathNode ' + path ] = function(assert) {
-                var done = assert.done || assert.async();
-                assert.expect( 2 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =====================================================
+//                      deprecated
+// =====================================================
+
+    // testCase.forEach(function( test ) {
+    //     test.path.forEach(function( path ) {
+    //         exports[ useTitle + ': pathNode ' + path ] = function(assert) {
+    //             var done = assert.done || assert.async();
+    //             assert.expect( 2 );
                 
-                var data = use.pathNode({
-                    path: path,
-                    complete: function( e ) {
-                        // console.log( e );
-                        if ( test.value.length > 0 ) {
-                            assert.deepEqual( [ test.value[0] ], e.List() );
-                        }
-                        else {
-                            assert.deepEqual( [], e.List() );
-                        }
-                    }
-                });
+    //             var data = use.pathNode({
+    //                 path: path,
+    //                 complete: function( e ) {
+    //                     // console.log( e );
+    //                     if ( test.value.length > 0 ) {
+    //                         assert.deepEqual( [ test.value[0] ], e.List() );
+    //                     }
+    //                     else {
+    //                         assert.deepEqual( [], e.List() );
+    //                     }
+    //                 }
+    //             });
 
-                if ( test.value.length > 0 ) {
-                    assert.deepEqual( data, test.value[0].data );
-                }
-                else {
-                    assert.strictEqual( data, undefined );
-                }
+    //             if ( test.value.length > 0 ) {
+    //                 assert.deepEqual( data, test.value[0].data );
+    //             }
+    //             else {
+    //                 assert.strictEqual( data, undefined );
+    //             }
 
-                done();
-            };
-        });
-    });
+    //             done();
+    //         };
+    //     });
+    // });
 
 
-    testCase.forEach(function( test ) {
-        test.path.forEach(function( path ) {
-            exports[ useTitle + ': pathNode string ' + path ] = function(assert) {
-                var done = assert.done || assert.async();
-                assert.expect( 1 );
+    // testCase.forEach(function( test ) {
+    //     test.path.forEach(function( path ) {
+    //         exports[ useTitle + ': pathNode string ' + path ] = function(assert) {
+    //             var done = assert.done || assert.async();
+    //             assert.expect( 1 );
                 
-                var data = use.pathNode( path );
+    //             var data = use.pathNode( path );
 
-                if ( test.value.length > 0 ) {
-                    assert.deepEqual( data, test.value[0].data );
-                }
-                else {
-                    assert.strictEqual( data, undefined );
-                }
+    //             if ( test.value.length > 0 ) {
+    //                 assert.deepEqual( data, test.value[0].data );
+    //             }
+    //             else {
+    //                 assert.strictEqual( data, undefined );
+    //             }
 
-                done();
-            };
-        });
-    });
+    //             done();
+    //         };
+    //     });
+    // });
 
 });
 
