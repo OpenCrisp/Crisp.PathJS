@@ -34,6 +34,32 @@ exports['pathFind'] = function(assert) {
     done();
 };
 
+exports['pathFind _'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(5);
+        
+    var myObject = { _a: 'A', _b: 'B' };
+
+    Crisp.definePath( myObject );
+
+    myObject.pathFind(
+        {
+            path: '_a'
+        },
+        function ( item ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( myObject._a, item );
+        },
+        function ( e ) {
+            assert.strictEqual( myObject, this );
+            assert.strictEqual( 'complete', e.action );
+        }
+    );
+
+    assert.ok(1);
+    done();
+};
+
 exports['pathFind concat'] = function(assert) {
     var done = assert.done || assert.async();
     assert.expect(1);
@@ -140,34 +166,6 @@ exports['pathFind a.b'] = function(assert) {
             assert.strictEqual( myObject, this );
             assert.strictEqual( 'complete', e.action );
             // assert.strictEqual( myObject, e.self );
-        }
-    });
-
-    done();
-};
-
-
-exports['pathFind parent'] = function(assert) {
-    var done = assert.done || assert.async();
-    assert.expect(4);
-        
-    var myObject = { x: { a: 'A', b: 'B' } };
-
-    Object.defineProperty( myObject.x, '__parent__', {
-        value: myObject
-    });
-
-    Crisp.definePath( myObject );
-
-    myObject.pathFind({
-        path: 'x..:xTo',
-        success: function( item ) {
-            assert.strictEqual( myObject, this );
-            assert.strictEqual( '{"x":{"a":"A","b":"B"}}', item );
-        },
-        complete: function( e ) {
-            assert.strictEqual( myObject, this );
-            assert.strictEqual( 'complete', e.action );
         }
     });
 
@@ -516,7 +514,7 @@ exports['abst.pathFind limit'] = function(assert) {
 //     Crisp.definePath( myObject );
 
 //     myObject.pathFind({
-//         path: '+(:<"3").-1.',
+//         path: '+(:<"3").0~3.',
 //         success: function( item ) {
 //             test.push( item );
 //         },

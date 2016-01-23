@@ -60,12 +60,12 @@ exports['utilPick * async'] = function(assert) {
     function toPick( option, success, picker ) {
         var self = this;
 
-        // picker.Wait();
-        // Crisp.nextTick(function() {
+        picker.Wait();
+        Crisp.nextTick(function() {
             success.call( self, self._tmp, picker );
             // console.log('bla', self._tmp );
-        //     picker.Talk();
-        // });
+            picker.Talk();
+        });
     }
 
     Type.prototype.toPick = Crisp.utilPick( toPick );
@@ -124,12 +124,12 @@ exports['utilPick # async'] = function(assert) {
     function toPick( option, success, picker ) {
         var self = this;
 
-        // picker.Wait();
-        // Crisp.nextTick(function() {
+        picker.Wait();
+        Crisp.nextTick(function() {
             success.call( self, self._tmp, picker );
             // console.log('bla', self._tmp );
-        //     picker.Talk();
-        // });
+            picker.Talk();
+        });
     }
 
     Type.prototype.toPick = Crisp.utilPick( toPick );
@@ -205,6 +205,44 @@ exports['utilPick # parallel inherit'] = function(assert) {
         function () {
             list.push('end');
             assert.equal( list.join(','), 'S,B,end' );
+            done();
+        }
+    );
+};
+
+exports['utilPick # raw'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+
+    var list = [];
+    // var count = 0;
+
+    function itemEach() {
+        this.xEach.callback.apply( this, arguments );
+    }
+    
+    var myObject = Crisp.utilCreate({
+        ns: 'util.path',
+        prototypes: {
+            itemEach: Crisp.utilPick( itemEach ),
+            toString: function () {
+                return 'S';
+            }
+        }
+    }).objIni().objData({ a: 'A', b: 'B' });
+
+    // console.log( myObject );
+
+    myObject.pathFind(
+        {
+            path: '#'
+        },
+        function (doc) {
+            list.push( doc.toString() );
+        },
+        function () {
+            list.push('end');
+            assert.equal( list.join(','), 'S,A,B,end' );
             done();
         }
     );

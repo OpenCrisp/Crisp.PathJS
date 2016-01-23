@@ -1,9 +1,19 @@
-/*! OpenCrisp PathJS - v1.0.0 - 2015-12-26
+/*! OpenCrisp PathJS - v1.1.0 - 2016-01-23
 * http://opencrisp.wca.at/docs/util.path.html
-* Copyright (c) 2015 Fabian Schmid; Licensed MIT */
+* Copyright (c) 2016 Fabian Schmid; Licensed MIT */
 (function($$) {
 
     console.log( (function ( _ ) {
+
+        function printFill( str, m, fill ) {
+            fill = fill || ' ';
+            str = ''.concat(str);
+            for ( var i = str.length; i<m; i+=1 ) {
+             str += fill;
+            }
+            return str;
+        }
+
         _.view = function ( self, name, set ) {
             // return;
             // console.warn(self);
@@ -28,15 +38,6 @@
             }
             _.log( str );
         };
-
-        function printFill( str, m, fill ) {
-            fill = fill || ' ';
-            str = ''.concat(str);
-            for ( var i = str.length; i<m; i+=1 ) {
-             str += fill;
-            }
-            return str;
-        }
 
         return "set: console.view()";
     })( console ));
@@ -161,6 +162,7 @@
     function pathFindEach( node, events, success ) {
         // console.log('type of each', type.call( node.itemEach ) );
         var fn = type.call( node.itemEach, 'Function' ) ? node.itemEach : node.xEach;
+        var self = this;
 
         success = success || function ( doc ) {
             nextTick.call( this, doc, null, events );
@@ -172,15 +174,30 @@
                 self: this,
                 reverse: this._revlist
             },
-            success
+            function () {
+                success.apply( self, arguments );
+            }
+            // success
         );
     }
 
     function pathFindEachAll( node, events ) {
-        this.child.exec({ node: node }, events );
+        if ( this.child ) {
+            this.child.exec({ node: node }, events );
+        }
+        else {
+            console.log('node', node );
+            console.log( this );
+        }
+
 
         // if ( node.isField() ) {
+        // if ( !type.call( node, 'Array' ) && !type.call( node, 'Object' ) ) {
         if ( !type.call( node, 'Array' ) && !type.call( node, 'Object' ) ) {
+            return;
+        }
+
+        if ( node.isField && node.isField() ) {
             return;
         }
 
@@ -244,6 +261,7 @@
          */
         '#': function( node, events ) {
             var specific = this.specific();
+            // console.log('#', this );
 
             if ( specific ) {
                 pickValue.call(
@@ -251,7 +269,7 @@
                     specific,
                     node,
                     function ( valueNode ) {
-                        // console.log(' spec', valueNode, picker._wait );
+                        // console.log(' spec', valueNode );
                         if ( valueNode ) {
                             pathFindEachAll.call( this, node, events );
                         }
@@ -696,32 +714,40 @@
     }
 
 
-    function pickOperator( operator, node, success, complete ) {
+    function pickOperator( operator, nodeFirst, nodeSecond, success, complete ) {
         if ( !operator ) {
-            success.call( this, node );
+            success.call( this, nodeFirst );
             complete.call( this );
+            console.view( this, 'no operator', 2 );
             return;
         }
+
+        // console.view( this, operator, 2 );
+        // console.warn( nodeFirst );
 
         pickValue.call(
             this,
             this.value,
-            node,
+            nodeSecond,
             function ( valueNode ) {
 
                 if ( valueNode instanceof RegExp ) {
-                    node = valueNode.test( node );
+                    nodeFirst = valueNode.test( nodeFirst );
                     valueNode = true;
                 }
 
-                node = pathOperator[ operator ]( node, valueNode );
+                nodeFirst = pathOperator[ operator ]( nodeFirst, valueNode );
 
-                // console.log('-- operator:', operator, node, valueNode );
-                success.call( this, node );
+                // console.warn('-- operator:', operator, nodeFirst, valueNode );
+                success.call( this, nodeFirst );
             },
             complete
         );
+        
+        // console.view( this, operator );
+
     }
+
 
     /**
      * @class
@@ -781,13 +807,15 @@
                     this.reverse(),
                     valueNode,
                     function ( reverseNode ) {
-                        // console.log('reverseNode', valueNode );
+                        // console.log('reverseNode', reverseNode );
                         picker.Wait();
                         pickOperator.call(
                             this,
                             this.operator(),
                             reverseNode,
+                            option.node,
                             function ( operatorNode ) {
+                                // console.log('operatorNode', operatorNode );
                                 events.eventTrigger({
                                     action: 'success',
                                     args: operatorNode
@@ -838,7 +866,7 @@
     var strPathDoc = '\\s*(?:' +
                 '(\\.)' +                                  // [1]   Parent Doc
         '|' +   '(\\^)?(-?\\d*~\\d*|-\\d+)\\.?' +          // [2,3] Limit items
-        '|' +   '(\\d+|[a-z][a-z\\d\\-]*)\\.?' +           // [4]   Doc Attribute-Name
+        '|' +   '(\\d+|[a-z_][a-z\\d\\-_]*)\\.?' +           // [4]   Doc Attribute-Name
         '|' +   '(\\^)?([*#+])\\.?' +                      // [5,6] Value Node
         '|' +   '\\$([a-z\\d_]+)\\.?' +                    // [7]   Repeat
         '|' +   '(:)' +                                    // [8]   findFunction
@@ -867,7 +895,8 @@
         var score = regPathDoc.exec( this._path );
 
         if ( !score ) {
-            return;
+            // console.warn('findPathDoc');
+            return new PathDoc( parent );
         }
 
         this._index = regPathDoc.lastIndex;
@@ -1059,6 +1088,7 @@
             var specific = this.specific();
  
             if ( specific ) {
+                console.log( this );
                 pickValue.call(
                     this,
                     specific,
@@ -1068,7 +1098,8 @@
                         if ( valueNode ) {
                             nextTick.call( this, item, null, events );
                         }
-                    }
+                    },
+                    End
                 );
             }
             else {
@@ -1169,35 +1200,40 @@
      */
     pathDocProto.exec = function( option, events ) {
         // console.log('PathDoc.exec', this.attr() );
-        var self = this;
+        // var self = this;
         
         var picker = events.eventPicker({
             cache: events,
             action: 'complete',
             empty: true
         });
+
         
         if ( !type.call( option.node[ this.attr() ], 'Undefined' ) ) {
             nextTick.call( this, option.node[ this.attr() ], picker, events );
-            picker.Talk();
-            return;
+            // picker.Talk();
+            // return;
         }
-
-        if ( this._valkey ) {
+        else if ( this._valkey ) {
             option.node = this.child.exec({ node: this.attr() }, events);
-            picker.Talk();
-            return;
         }
-        else if ( !type.call( option.node.pathInclude, 'Function' ) ) {
-            picker.Talk();
-            return;
+        else if ( !this.attr() ) {
+            nextTick.call( this, option.node, picker, events );
         }
+        
+        picker.Talk();
 
 
-        option.node.pathInclude( this.attr(), function( item ) {
-            nextTick.call( self, item, picker, events );
-            picker.Talk();
-        });
+        // else if ( !type.call( option.node.pathInclude, 'Function' ) ) {
+        //     picker.Talk();
+        //     return;
+        // }
+
+
+        // option.node.pathInclude( this.attr(), function( item ) {
+        //     nextTick.call( self, item, picker, events );
+        //     picker.Talk();
+        // });
     };
 
     /**
