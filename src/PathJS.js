@@ -507,7 +507,7 @@
             }
             // \\$([\\w]+)
             else if ( score[12] !== undefined ) {
-                condition.child = new PathValue( condition, this.valueKey(score[12]) );
+                condition.child = new PathValue( condition, this._values, score[12] );
             }
             else {
                 this._index = score.index;
@@ -956,8 +956,11 @@
         }
         // \\$([a-z\\d_]+)\\.?
         else if ( score[7] !== undefined ) {
+            // console.log('PathDoc:', score[7] );
             obj = new PathDoc( parent, this.valueKey( score[7] ) ).parse();
+            // obj = new PathDoc( parent ).parse();
             obj._valkey = score[7];
+            // obj._values = this._values;
         }
         // (:)
         else if ( score[8] !== undefined ) {
@@ -1240,14 +1243,27 @@
             empty: true
         });
 
-        
-        if ( !type.call( option.node[ this.attr() ], 'Undefined' ) ) {
+        // if ( !type.call( option.node[ this.attr() ], 'Undefined' ) ) {
+        if (
+                (
+                    type.call(option.node, 'Object') && 
+                    Object.keys(option.node).indexOf( this.attr() ) !== -1
+                ) ||
+                (
+                    type.call(option.node, 'Array') && 
+                    option.node[ this.attr() ]
+                )
+            ) {
+            
+            // console.log( this.attr(), option.node[ this.attr() ] );
             nextTick.call( this, option.node[ this.attr() ], picker, events );
             // picker.Talk();
             // return;
         }
         else if ( this._valkey ) {
+            // console.log('value', this._values[ this._valkey ].is.toString() );  
             option.node = this.child.exec({ node: this.attr() }, events);
+            // option.node = this.child.exec({ node: this._values[ this._valkey ] }, events);
         }
         else if ( !this.attr() ) {
             nextTick.call( this, option.node, picker, events );
@@ -1466,10 +1482,11 @@
      *
      * @memberOf util.path
      */
-    function PathValue( parent, value ) {
+    function PathValue( parent, value, key ) {
         this._parent = parent;
         // Object.defineProperty( this, '_parent', { value: parent });
         this._value = value;
+        this._key = key;
     }
 
     var pathValueProto = PathValue.prototype = new PathBaseProto();
@@ -1486,7 +1503,10 @@
             empty: true
         });
 
-        nextTick.call( this, this._value, picker, events );
+        var value = this._key ? this._value[ this._key ] : this._value;
+        // console.log('pathValueProto', this._key, value );
+
+        nextTick.call( this, value, picker, events );
         picker.Talk();
     };
 

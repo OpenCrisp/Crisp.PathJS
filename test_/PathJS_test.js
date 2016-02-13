@@ -362,6 +362,42 @@ exports['item.pathFind values self find'] = function(assert) {
     done();
 };
 
+exports['item.pathFind values self find property'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(2);
+        
+    var myObject = { 
+        list: [
+            { a: 'BA', b: 'BB' },
+        ]
+    };
+
+    Object.defineProperty( myObject, 'is', {
+        value: 'BA',
+        enumerable: true,
+        configurable: true,
+        // get: function () {
+        //     return 'BA';
+        // }
+    });
+
+    Crisp.definePath( myObject );
+
+    assert.strictEqual( myObject.is.toString(), 'BA' );
+
+    myObject.pathFind(
+        {
+            path: 'list.*(a:==$self.is:).b:',
+            // path: 'list.*( a: == $self.is: ).b:',
+        },
+        function ( item ) {
+            assert.strictEqual( 'BB', item );
+        }
+    );
+
+    done();
+};
+
 exports['item.pathFind values deep'] = function(assert) {
     var done = assert.done || assert.async();
     assert.expect(5);
