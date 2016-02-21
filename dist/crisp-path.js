@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v1.1.2 - 2016-02-13
+/*! OpenCrisp PathJS - v1.1.4 - 2016-02-22
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2016 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -1540,7 +1540,7 @@
         catch (err) {
 
             if ( err instanceof EndPath ) {
-                console.error( err );
+                // console.error( err );
                 return;
             }
             else if ( reason._preset !== undefined ) {

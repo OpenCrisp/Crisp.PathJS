@@ -1572,7 +1572,7 @@
         catch (err) {
 
             if ( err instanceof EndPath ) {
-                console.error( err );
+                // console.error( err );
                 return;
             }
             else if ( reason._preset !== undefined ) {
