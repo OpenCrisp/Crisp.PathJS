@@ -1,49 +1,4 @@
 
-// exports['pathNode'] = function(assert) {
-//     var done = assert.done || assert.async();
-//     assert.expect(3);
-
-//     var myObject = Crisp.utilCreate({
-//         ns: 'util.path'
-//     }).objIni().objData({ a: 'A', b: 'B' });
-    
-//     assert.strictEqual( myObject.pathNode('a:'), 'A' );
-//     assert.strictEqual( myObject.pathNode('b:'), 'B' );
-//     assert.strictEqual( myObject.pathNode('*:'), 'A' );
-
-//     done();
-// };
-
-// exports['pathNode option.path'] = function(assert) {
-//     var done = assert.done || assert.async();
-//     assert.expect(3);
-
-//     var myObject = Crisp.utilCreate({
-//         ns: 'util.path'
-//     }).objIni().objData({ a: 'A', b: 'B' });
-    
-//     assert.strictEqual( myObject.pathNode({ path: 'a:' }), 'A' );
-//     assert.strictEqual( myObject.pathNode({ path: 'b:' }), 'B' );
-//     assert.strictEqual( myObject.pathNode({ path: '*:' }), 'A' );
-
-//     done();
-// };
-
-// exports['pathNode option.preset'] = function(assert) {
-//     var done = assert.done || assert.async();
-//     assert.expect(3);
-
-//     var myObject = Crisp.utilCreate({
-//         ns: 'util.path'
-//     }).objIni();
-    
-//     assert.strictEqual( myObject.pathNode({ path: 'x:', preset: 'X' }), 'X' );
-//     assert.strictEqual( myObject.pathNode({ path: 'x:', preset: function() { return 'X'; } }), 'X' );
-//     assert.strictEqual( myObject.pathNode({ path: 'x:' }), undefined );
-
-//     done();
-// };
-
 
 exports['pathFind'] = function(assert) {
     var done = assert.done || assert.async();
@@ -170,10 +125,11 @@ exports['pathFind option.limit'] = function(assert) {
         path: '*',
         limit: 1,
         success: function ( item ) {
+            // console.log('Success:', item );
             testList.push( item );
         },
         complete: function() {
-            // console.log('Complete:', e.List().xTo() );
+            // console.log('Complete:', testList.xTo() );
             assert.strictEqual( myObject, this );
             assert.strictEqual( '["A"]', testList.xTo() );
         }
@@ -237,20 +193,6 @@ exports['pathFind option.start out of data'] = function(assert) {
     done();
 };
 
-// exports['pathExists'] = function(assert) {
-//     var done = assert.done || assert.async();
-//     assert.expect(3);
-    
-//     var myObject = Crisp.utilCreate({
-//         ns: 'util.path'
-//     }).objIni().objData({ a: 'A', b: 'B' });
-    
-//     assert.ok( myObject.pathExists('b') );
-//     assert.ok( myObject.pathExists('*') );
-//     assert.ok( !myObject.pathExists('x') );
-
-//     done();
-// };
 
 exports['abst.pathFind function arguments'] = function(assert) {
     var done = assert.done || assert.async();
@@ -279,6 +221,7 @@ exports['abst.pathFind function arguments'] = function(assert) {
     done();
 };
 
+
 exports['abst.pathFind filter'] = function(assert) {
     var done = assert.done || assert.async();
     assert.expect(2);
@@ -290,7 +233,7 @@ exports['abst.pathFind filter'] = function(assert) {
         ns: 'util.path',
         prototypes: {
             myFilter: function() {
-                console.log('filter:', arguments );
+                // console.log('filter:', arguments );
             }
         }
     });
@@ -351,11 +294,11 @@ exports['abst.pathFind specific'] = function(assert) {
             path: '+( :xType("Array") == false ).#:xTo '
         },
         function( doc ) {
-            console.log('Success:', doc );
+            // console.log('Success:', doc );
             assert.strictEqual( doc, testData[ testCount++ ].data );
         },
         function() {
-            console.warn('Complete:', testCount );
+            // console.warn('Complete:', testCount );
             assert.equal( ++testCount, 5 );
         }
     );

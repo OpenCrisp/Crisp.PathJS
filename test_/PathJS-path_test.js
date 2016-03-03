@@ -130,7 +130,13 @@ var testCase = [
 
     // Array.xEach filter
     {
-        path: [ 'g.*.(i>"I3").h:' ],
+        path: [
+            'g.*.(i>"I3").h:',
+
+            // specific filter
+            'g.+(i>"I3").*.h:',
+            '+(i>"I3").g.*.h:'
+        ],
         value: [ 'H4', 'H5' ]
     },
     {

@@ -74,14 +74,16 @@
         return "set: console.view()";
     })( console ));
 
-    var utilTick        = $$.utilTick;
+    var utilTick      = $$.utilTick;
     var type          = $$.type;
     
 
-    // var Break = $$.ns('util.control.Break');
+    var Break = $$.ns('util.control.Break');
     var End = $$.ns('util.control.End');
-    var EndPath = function() {};
-    function EndPicker() {}
+
+    function BreakPath() {}
+    function EndPath() {}
+    // function EndPicker() {}
 
 
 
@@ -222,9 +224,6 @@
             console.log( this );
         }
 
-
-        // if ( node.isField() ) {
-        // if ( !type.call( node, 'Array' ) && !type.call( node, 'Object' ) ) {
         if ( !type.call( node, 'Array' ) && !type.call( node, 'Object' ) ) {
             return;
         }
@@ -249,7 +248,43 @@
          * 
          * @param  {*} node
          */
-        '*': pathFindEach,
+        // '*': pathFindEach,
+        '*': function( node, events ) {
+            var specific = this.specific();
+
+            pathFindEach.call( this, node, events, function (item) {
+                
+                if ( specific ) {
+                    try {
+                        pickValue.call(
+                            this,
+                            specific,
+                            item,
+                            function ( valueNode ) {
+                                // console.log(' spec', valueNode );
+                                if ( valueNode ) {
+                                    this.child.exec({ node: item }, events );
+                                }
+                                else {
+                                    // console.log('* BreakPath')
+                                    throw new BreakPath();
+                                }
+                            },
+                            End
+                        );
+                    }
+                    catch (err) {
+                        if (err instanceof BreakPath) {
+                            throw new Break();
+                        }
+                    }
+                }
+                else {
+                    this.child.exec({ node: item }, events );
+                }
+            });
+
+        },
 
         /**
          * @function util.path.pathFind.'+'
@@ -259,30 +294,12 @@
          */
         '+': function( node, events ) {
             // console.log('pathFind.#', node.docPath(), testSpecific );
-            
-            var picker = events.eventPicker({
-                cache: events,
-                action: 'complete',
-                empty: true
-            });
 
             if ( this.child ) {
                 this._specific = this.child.filter;
             }
 
-            pickValue.call(
-                this,
-                this.specific(),
-                node,
-                function ( valueNode ) {
-                    if ( valueNode ) {
-                        this.child.exec({ node: node }, events );
-                    }
-                },
-                function () {
-                    picker.Talk();
-                }
-            );
+            nextTick.call( this.child, node, null, events );
         },
 
         /**
@@ -340,7 +357,6 @@
      * @memberOf util.path
      */
     function pickValue( ref, node, success, complete ) {
-        var self = this;
 
         if ( !ref ) {
             console.error('pickValue !ref return');
@@ -352,41 +368,18 @@
 
         events.eventListener({
             // limit: 1,
-            // self: this,
+            self: this,
             action: 'success',
-            // listen: success
-            listen: function ( doc ) {
-                success.call( self, doc );
-            }
+            listen: success
         });
 
         events.eventListener({
+            self: this,
             action: 'complete',
-            // self: this,
-            // listen: complete
-            listen: function () {
-                complete.call( self );
-            }
+            listen: complete
         });
 
-        try {
-            // console.log(ref);
-            ref.exec({ node: node }, events );
-        }
-        catch ( err ) {
-            if ( err instanceof EndPicker ) {
-                // console.error( err );
-                return;
-            }
-            else if ( err instanceof EndPath ) {
-                // console.error( err );
-                return;
-            }
-
-            // throw new EndPath();
-            // console.error( err );
-            throw err;
-        }
+        ref.exec({ node: node }, events );
     }
 
 
@@ -477,12 +470,6 @@
             }
             // (\\]|\\))\\.?
             else if ( score[5] !== undefined ) {
-                    //     complete.call( this );
-                    // }
-                    // else {
-                    //     complete.call( this );
-                    // }
-                    // else {
                 stop = true;
             }
             // (\\d+(?:\\.\\d+)?)(?!\\.|:)
@@ -561,6 +548,10 @@
          * @return {*}
          */
         specific: function() {
+            if ( this._specific === null ) {
+                return;
+            }
+
             return this._specific || this.parent('specific');
         }
 
@@ -1110,7 +1101,7 @@
      * @return {*}
      */
     pathLimitProto.exec = function( option, events ) {
-        // console.log('== limit', node );
+        // console.log('== limit', option.node );
         console.view( this, '>~', 1 );
 
         var picker = events.eventPicker({
@@ -1119,23 +1110,42 @@
             empty: true
         });
 
+
         function success( item ) {
+            // nextTick.call( this, item, null, events );
             var specific = this.specific();
- 
+            // // this._specific = null;
+
+            // console.log('limit:', item );
+            // // throw new Break();
+            // // nextTick.call( this, item, null, events );
+            // // return;
+
             if ( specific ) {
-                console.log( this );
-                pickValue.call(
-                    this,
-                    specific,
-                    item,
-                    function ( valueNode ) {
-                        // console.log(' spec', valueNode, picker._wait );
-                        if ( valueNode ) {
-                            nextTick.call( this, item, null, events );
-                        }
-                    },
-                    End
-                );
+                // console.log( this );
+                try {
+                    pickValue.call(
+                        this,
+                        specific,
+                        item,
+                        function ( valueNode ) {
+                            // console.log(' spec', valueNode, picker._wait, item );
+                            if ( valueNode ) {
+                                nextTick.call( this, item, null, events );
+                            }
+                            else {
+                                throw new BreakPath();
+                            }
+                        },
+                        function () {}
+                    );
+                }
+                catch (err) {
+                    if (err instanceof BreakPath) {
+                        throw new Break();
+                    }
+                }
+
             }
             else {
                 nextTick.call( this, item, null, events );
@@ -1152,6 +1162,8 @@
         if ( type.call( option.node.itemLimit, 'Function' ) ) {
             opt.start = this._start;
             opt.limit = this._limit;
+
+            console.log('opt:', opt );
 
             // console.log('limit.exec itemLimit', opt );
             // option.node.itemLimit( opt, success, complete );
@@ -1570,6 +1582,7 @@
             condition.exec({ node: this }, events );
         }
         catch (err) {
+            // console.log('ERR _parsePath', $$.type.call(err) );
 
             if ( err instanceof EndPath ) {
                 // console.error( err );
@@ -1586,9 +1599,9 @@
 
                 return;
             }
-            // else if ( err instanceof Break ) {
-            //     return;
-            // }
+            else if ( err instanceof Break ) {
+                return;
+            }
 
             throw err;
         }
@@ -1625,14 +1638,31 @@
          * @return {*}
          */
         valueKey: function( key ) {
-            return this._values[ key ];
+            var val = this._values[ key ];
+
+            if ( type.call(val, 'Function') ) {
+                return val.call( this );
+            }
+            else {
+                return val;
+            }
+        }, 
+        rootSelf: function () {
+            var note = this._values.self;
+
+            while (note.__parent__) {
+                note = note.__parent__;
+            }
+
+            return note;
         }
     };
 
 
     /**
      * _pathNode
-     * 
+     *
+     * @deprecated use _pathFinde
      * @private
      * 
      * @param  {external:Object} option
@@ -1729,6 +1759,9 @@
         
         option.values = option.values || {};
         option.values.self = option.values.self || this;
+        option.values.root = option.values.root || function () {
+            return this.rootSelf();
+        };
 
 
         var object = new Path( option );
@@ -1763,6 +1796,7 @@
     /**
      * _pathExists
      * @private
+     * @deprecated use _pathFind
      * 
      * @param  {external:String} path
      *
@@ -1785,6 +1819,7 @@
     $$.ns('util.path').prototypes = {
 
         /**
+         * @deprecated use pathFind
          * @function
          * @implements {util.path._pathNode}
          * @memberOf   util.path.prototype
@@ -1803,6 +1838,7 @@
         pathFind: _pathFind,
 
         /**
+         * @deprecated use pathFind
          * @function
          * @implements {util.path._pathExists}
          * @memberOf   util.path.prototype
@@ -1837,6 +1873,7 @@
         Object.defineProperties( moduleObject, {
 
             /**
+             * @deprecated use pathFind
              * @function
              * @implements {util.path._pathNode}
              * @memberOf module:PathJS
@@ -1855,6 +1892,7 @@
             },
 
             /**
+             * @deprecated use pathFind
              * @function
              * @implements {util.path._pathExists}
              * @memberOf module:PathJS
