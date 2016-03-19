@@ -1247,7 +1247,7 @@
      */
     pathDocProto.exec = function( option, events ) {
         // console.log('PathDoc.exec', this.attr() );
-        // var self = this;
+        var self = this;
 
         var picker = events.eventPicker({
             cache: events,
@@ -1255,45 +1255,44 @@
             empty: true
         });
 
-        // if ( !type.call( option.node[ this.attr() ], 'Undefined' ) ) {
+        if ( type.call(option.node.itemFetch, 'Function') ) {
+            return option.node.itemFetch(
+                { name: self.attr() },
+                function (doc) {
+                    nextTick.call( self, doc, picker, events );
+                },
+                function () {
+                    picker.Talk();
+                }
+            );
+        }
+
         if (
                 (
                     type.call(option.node, 'Object') && 
-                    Object.keys(option.node).indexOf( this.attr() ) !== -1
+                    Object.keys(option.node).indexOf( self.attr() ) !== -1
                 ) ||
                 (
                     type.call(option.node, 'Array') && 
-                    option.node[ this.attr() ]
+                    option.node[ self.attr() ]
                 )
             ) {
             
-            // console.log( this.attr(), option.node[ this.attr() ] );
-            nextTick.call( this, option.node[ this.attr() ], picker, events );
+            // console.log( self.attr(), option.node[ self.attr() ] );
+            nextTick.call( self, option.node[ self.attr() ], picker, events );
             // picker.Talk();
             // return;
         }
-        else if ( this._valkey ) {
-            // console.log('value', this._values[ this._valkey ].is.toString() );  
-            option.node = this.child.exec({ node: this.attr() }, events);
-            // option.node = this.child.exec({ node: this._values[ this._valkey ] }, events);
+        else if ( self._valkey ) {
+            // console.log('value', self._values[ self._valkey ].is.toString() );  
+            option.node = self.child.exec({ node: self.attr() }, events);
+            // option.node = self.child.exec({ node: self._values[ self._valkey ] }, events);
         }
-        else if ( !this.attr() ) {
-            nextTick.call( this, option.node, picker, events );
+        else if ( !self.attr() ) {
+            nextTick.call( self, option.node, picker, events );
         }
         
         picker.Talk();
-
-
-        // else if ( !type.call( option.node.pathInclude, 'Function' ) ) {
-        //     picker.Talk();
-        //     return;
-        // }
-
-
-        // option.node.pathInclude( this.attr(), function( item ) {
-        //     nextTick.call( self, item, picker, events );
-        //     picker.Talk();
-        // });
     };
 
     /**

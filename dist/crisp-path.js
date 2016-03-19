@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v1.2.0 - 2016-03-19
+/*! OpenCrisp PathJS - v1.3.0 - 2016-03-19
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2016 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -1235,7 +1235,6 @@
             );
         }
 
-        // if ( !type.call( option.node[ self.attr() ], 'Undefined' ) ) {
         if (
                 (
                     type.call(option.node, 'Object') && 
@@ -1262,18 +1261,6 @@
         }
         
         picker.Talk();
-
-
-        // else if ( !type.call( option.node.pathInclude, 'Function' ) ) {
-        //     picker.Talk();
-        //     return;
-        // }
-
-
-        // option.node.pathInclude( self.attr(), function( item ) {
-        //     nextTick.call( self, item, picker, events );
-        //     picker.Talk();
-        // });
     };
 
     /**
