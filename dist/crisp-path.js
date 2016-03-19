@@ -1,4 +1,4 @@
-/*! OpenCrisp PathJS - v1.2.0 - 2016-03-03
+/*! OpenCrisp PathJS - v1.2.0 - 2016-03-19
 * http://opencrisp.wca.at/docs/util.path.html
 * Copyright (c) 2016 Fabian Schmid; Licensed MIT */
 (function($$) {
@@ -1131,7 +1131,7 @@
             opt.start = this._start;
             opt.limit = this._limit;
 
-            console.log('opt:', opt );
+            // console.log('opt:', opt );
 
             // console.log('limit.exec itemLimit', opt );
             // option.node.itemLimit( opt, success, complete );
@@ -1215,38 +1215,50 @@
      */
     pathDocProto.exec = function( option, events ) {
         // console.log('PathDoc.exec', this.attr() );
-        // var self = this;
-        
+        var self = this;
+
         var picker = events.eventPicker({
             cache: events,
             action: 'complete',
             empty: true
         });
 
-        // if ( !type.call( option.node[ this.attr() ], 'Undefined' ) ) {
+        if ( type.call(option.node.itemFetch, 'Function') ) {
+            return option.node.itemFetch(
+                { name: self.attr() },
+                function (doc) {
+                    nextTick.call( self, doc, picker, events );
+                },
+                function () {
+                    picker.Talk();
+                }
+            );
+        }
+
+        // if ( !type.call( option.node[ self.attr() ], 'Undefined' ) ) {
         if (
                 (
                     type.call(option.node, 'Object') && 
-                    Object.keys(option.node).indexOf( this.attr() ) !== -1
+                    Object.keys(option.node).indexOf( self.attr() ) !== -1
                 ) ||
                 (
                     type.call(option.node, 'Array') && 
-                    option.node[ this.attr() ]
+                    option.node[ self.attr() ]
                 )
             ) {
             
-            // console.log( this.attr(), option.node[ this.attr() ] );
-            nextTick.call( this, option.node[ this.attr() ], picker, events );
+            // console.log( self.attr(), option.node[ self.attr() ] );
+            nextTick.call( self, option.node[ self.attr() ], picker, events );
             // picker.Talk();
             // return;
         }
-        else if ( this._valkey ) {
-            // console.log('value', this._values[ this._valkey ].is.toString() );  
-            option.node = this.child.exec({ node: this.attr() }, events);
-            // option.node = this.child.exec({ node: this._values[ this._valkey ] }, events);
+        else if ( self._valkey ) {
+            // console.log('value', self._values[ self._valkey ].is.toString() );  
+            option.node = self.child.exec({ node: self.attr() }, events);
+            // option.node = self.child.exec({ node: self._values[ self._valkey ] }, events);
         }
-        else if ( !this.attr() ) {
-            nextTick.call( this, option.node, picker, events );
+        else if ( !self.attr() ) {
+            nextTick.call( self, option.node, picker, events );
         }
         
         picker.Talk();
@@ -1258,7 +1270,7 @@
         // }
 
 
-        // option.node.pathInclude( this.attr(), function( item ) {
+        // option.node.pathInclude( self.attr(), function( item ) {
         //     nextTick.call( self, item, picker, events );
         //     picker.Talk();
         // });
@@ -1495,6 +1507,7 @@
 
 
     function nextTick( node, picker, events ) {
+        var end;
         // console.log('nextTick:', node );
 
         if ( this.child ) {
@@ -1509,15 +1522,25 @@
             return;
         }
 
-        events.eventTrigger({
-            action: 'success',
-            // path: path,
-            args: [ node ]
-        });
+        try {
+            events.eventTrigger({
+                action: 'success',
+                // path: path,
+                args: [ node ]
+            });
+        }
+        catch (err) {
+            if (err instanceof Break) {
+                end = true;
+            }
+            else {
+                throw err;
+            }
+        }
 
         // console.log('--- nextTick', reason._count, reason._limit );
 
-        if ( reason._limit !== -1 && reason._count >= reason._limit ) {
+        if ( end || ( reason._limit !== -1 && reason._count >= reason._limit ) ) {
             // console.log('nextTick.limit', reason._limit, picker.note.list.own );
             
             picker = events.eventPicker({
@@ -1550,9 +1573,10 @@
             condition.exec({ node: this }, events );
         }
         catch (err) {
-            // console.log('ERR _parsePath', $$.type.call(err) );
+            // console.log('ERR _parsePath'  );
 
             if ( err instanceof EndPath ) {
+                // console.log('EndPath');
                 // console.error( err );
                 return;
             }
@@ -1567,9 +1591,15 @@
 
                 return;
             }
-            else if ( err instanceof Break ) {
+            // else if ( err instanceof Break ) {
+            //     console.log('Break');
+            //     return;
+            // }
+            else if ( err instanceof End ) {
+                // console.log('_parsePath End');
                 return;
             }
+            console.log('other');
 
             throw err;
         }

@@ -1163,7 +1163,7 @@
             opt.start = this._start;
             opt.limit = this._limit;
 
-            console.log('opt:', opt );
+            // console.log('opt:', opt );
 
             // console.log('limit.exec itemLimit', opt );
             // option.node.itemLimit( opt, success, complete );
@@ -1248,7 +1248,7 @@
     pathDocProto.exec = function( option, events ) {
         // console.log('PathDoc.exec', this.attr() );
         // var self = this;
-        
+
         var picker = events.eventPicker({
             cache: events,
             action: 'complete',
@@ -1527,6 +1527,7 @@
 
 
     function nextTick( node, picker, events ) {
+        var end;
         // console.log('nextTick:', node );
 
         if ( this.child ) {
@@ -1541,15 +1542,25 @@
             return;
         }
 
-        events.eventTrigger({
-            action: 'success',
-            // path: path,
-            args: [ node ]
-        });
+        try {
+            events.eventTrigger({
+                action: 'success',
+                // path: path,
+                args: [ node ]
+            });
+        }
+        catch (err) {
+            if (err instanceof Break) {
+                end = true;
+            }
+            else {
+                throw err;
+            }
+        }
 
         // console.log('--- nextTick', reason._count, reason._limit );
 
-        if ( reason._limit !== -1 && reason._count >= reason._limit ) {
+        if ( end || ( reason._limit !== -1 && reason._count >= reason._limit ) ) {
             // console.log('nextTick.limit', reason._limit, picker.note.list.own );
             
             picker = events.eventPicker({
@@ -1582,9 +1593,10 @@
             condition.exec({ node: this }, events );
         }
         catch (err) {
-            // console.log('ERR _parsePath', $$.type.call(err) );
+            // console.log('ERR _parsePath'  );
 
             if ( err instanceof EndPath ) {
+                // console.log('EndPath');
                 // console.error( err );
                 return;
             }
@@ -1599,9 +1611,15 @@
 
                 return;
             }
-            else if ( err instanceof Break ) {
+            // else if ( err instanceof Break ) {
+            //     console.log('Break');
+            //     return;
+            // }
+            else if ( err instanceof End ) {
+                // console.log('_parsePath End');
                 return;
             }
+            console.log('other');
 
             throw err;
         }

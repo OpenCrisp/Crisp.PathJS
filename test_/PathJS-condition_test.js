@@ -84,3 +84,32 @@ exports['pathFind: in conditionGroup of outsite parent'] = function(assert) {
 
     done();
 };
+
+
+exports['pathFind: condition abst.field in abst.field'] = function(assert) {
+    var done = assert.done || assert.async();
+    assert.expect(1);
+
+    var Break = Crisp.ns('util.control.Break');
+
+    var t = [];
+    
+    var myObject = Crisp.utilCreate({
+        ns: 'util.path'
+    }).objIni().objData({ a: ['A','C'], b: ['B','C','D','C'] });
+    
+    myObject.pathFind(
+        { path: 'a.*.($self.b.*:==:):' },
+        function (doc) {
+            // console.log('doc:', doc);
+            t.push(doc);
+            throw new Break();
+        },
+        function() {
+            assert.deepEqual(t, ['C']);
+            // console.log('-- END --');
+        }
+    );
+
+    done();
+};
