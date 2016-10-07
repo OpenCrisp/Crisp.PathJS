@@ -1255,7 +1255,7 @@
             empty: true
         });
 
-        if ( type.call(option.node.itemFetch, 'Function') ) {
+        if ( !type.call(self.attr(), 'Undefined') && type.call(option.node.itemFetch, 'Function') ) {
             return option.node.itemFetch(
                 { name: self.attr() },
                 function (doc) {

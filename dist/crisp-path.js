@@ -1,6 +1,6 @@
-/*! OpenCrisp PathJS - v1.3.0 - 2016-03-19
+/*! OpenCrisp PathJS - v1.3.1 - 2016-10-07
 * http://opencrisp.wca.at/docs/util.path.html
-* Copyright (c) 2016 Fabian Schmid; Licensed MIT */
+* Copyright (c) 2016 Fabian Schmid; Licensed [object Object] */
 (function($$) {
 
     console.log( (function ( _ ) {
@@ -1223,7 +1223,7 @@
             empty: true
         });
 
-        if ( type.call(option.node.itemFetch, 'Function') ) {
+        if ( !type.call(self.attr(), 'Undefined') && type.call(option.node.itemFetch, 'Function') ) {
             return option.node.itemFetch(
                 { name: self.attr() },
                 function (doc) {
