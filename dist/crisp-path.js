@@ -1,6 +1,6 @@
-/*! OpenCrisp PathJS - v1.3.1 - 2016-10-07
+/*! OpenCrisp PathJS - v1.3.2 - 2017-07-02
 * http://opencrisp.wca.at/docs/util.path.html
-* Copyright (c) 2016 Fabian Schmid; Licensed [object Object] */
+* Copyright (c) 2017 Fabian Schmid; Licensed [object Object] */
 (function($$) {
 
     console.log( (function ( _ ) {
